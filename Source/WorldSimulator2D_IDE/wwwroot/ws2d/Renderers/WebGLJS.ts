@@ -763,7 +763,7 @@
 
             (<{ type: ComponentType }>this).type = +type | 0; // (make sure it's an integer)
             (<{ stride: number }>this).stride = +stride | 0; // (make sure it's an integer)
-            (<{ usage: UsageType }>this).usage = +usage | 0; // (make sure it's an integer)
+            (<{ usage: UsageType }>this).usage = +usage || <number>this.ctx.enums.UsageTypes.DYNAMIC_DRAW; // (make sure it's an integer)
             (<{ componentSize: ComponentSize }>this).componentSize = +componentSize | 0; // (make sure it's an integer)
 
             return this;
