@@ -1,0 +1,7 @@
+{
+  "globalDependencies": {
+    "bootstrap": "registry:dt/bootstrap#3.3.5+20160726204056",
+    "jquery": "registry:dt/jquery#1.10.0+20170310222111",
+    "pixi.js": "registry:dt/pixi.js#4.4.0+20170311014322"
+  }
+}

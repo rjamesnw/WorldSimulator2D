@@ -1,0 +1,57 @@
+{
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/Source/WorldSimulator2D_IDE/bin/Debug/netcoreapp2.0/WorldSimulator2D.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Source/WorldSimulator2D_IDE",
+            "stopAtEntry": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+                    "args": "--remote-debugging-port=9222 --user-data-dir=C:/temp/chrome-debug ${auto-detect-url}"
+                    //"command": "cmd.exe",
+                    //"args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Chrome Attach",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "sourceMaps": true,
+            "url": "${auto-detect-url}",
+            "webRoot": "${workspaceFolder}/Source/WorldSimulator2D_IDE/wwwroot"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "traceResolution": true,
+    "listFiles": true,
+    "diagnostics": true,
+    "forceConsistentCasingInFileNames": false,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "declaration": true,
+    "sourceMap": true,
+    "target": "es5", // ES6
+    "outFile": "wwwroot/js/site.js",
+    "rootDir": "wwwroot/"
+  },
+  "files": [ "wwwroot/js/_references.ts" ],
+  "include": [
+    "typings/**/*.d.ts"
+    // "C:/Program Files (x86)/Microsoft SDKs/TypeScript/2.5/lib.webworker.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "wwwroot/lib/**/*.ts",
+    "wwwroot/lib/**/*.js"
+  ]
+}

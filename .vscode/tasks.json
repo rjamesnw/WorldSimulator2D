@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Source/WorldSimulator2D_IDE/WorldSimulator2D.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "dependsOn": ["build ws2d", "build ide"]
+    },
+    {
+      "label": "build ws2d",
+      "type": "typescript",
+      "tsconfig": "Source\\WorldSimulator2D_IDE\\wwwroot\\ws2d\\tsconfig.json",
+      "problemMatcher": ["$tsc"]
+    },
+    {
+      "label": "build ide",
+      "type": "typescript",
+      "tsconfig": "Source\\WorldSimulator2D_IDE\\tsconfig.json",
+      "problemMatcher": ["$tsc"]
+    }
+  ]
+}
