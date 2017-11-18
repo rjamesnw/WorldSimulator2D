@@ -5,5 +5,26 @@
 		}
 	],
 	"settings": {
+		"files.exclude": {
+			"**/bin": true,
+			"**/obj": true,
+			"**/*.js": {
+				"when": "$(basename).ts"
+			},
+			"**/wwwroot/**/*.js": true,
+			"**/wwwroot/**/*.d.ts": true,
+			"**/ws2d/**/*.js": true,
+			"**/*.js.map": true
+		},
+		"window.restoreWindows": "all",
+		"editor.formatOnPaste": true,
+		"csharp.format.enable": true,
+		"typescript.format.enable": true,
+		"cSpell.userWords": [
+			"polyfill",
+			"worldsimulator",
+			"wwwroot"
+		],
+		"git.enableSmartCommit": true
 	}
 }

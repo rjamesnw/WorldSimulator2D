@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "traceResolution": true,
+    "listFiles": true,
+    "diagnostics": true,
+    "forceConsistentCasingInFileNames": false,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "declaration": true,
+    "sourceMap": true,
+    "target": "es5", // ES6
+    "outDir": "wwwroot/",
+    "rootDir": "wwwroot/"
+  },
+  "files": [ "wwwroot/js/site.ts" ],
+  "include": [
+    "typings/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "wwwroot/ws2d/**/*.ts",
+    "wwwroot/lib/**/*.ts",
+    "wwwroot/lib/**/*.js"
+  ]
+}

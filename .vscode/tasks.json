@@ -10,19 +10,34 @@
         "${workspaceFolder}/Source/WorldSimulator2D_IDE/WorldSimulator2D.csproj"
       ],
       "problemMatcher": "$msCompile",
-      "dependsOn": ["build ws2d", "build ide"]
+      "dependsOn": [
+        "build ws2d",
+        "build ide"
+      ]
     },
     {
       "label": "build ws2d",
       "type": "typescript",
       "tsconfig": "Source\\WorldSimulator2D_IDE\\wwwroot\\ws2d\\tsconfig.json",
-      "problemMatcher": ["$tsc"]
+      "problemMatcher": [
+        "$tsc"
+      ]
     },
     {
       "label": "build ide",
       "type": "typescript",
       "tsconfig": "Source\\WorldSimulator2D_IDE\\tsconfig.json",
-      "problemMatcher": ["$tsc"]
+      "problemMatcher": [
+        "$tsc"
+      ]
+    },
+    {
+      "label": "build testsite",
+      "type": "typescript",
+      "tsconfig": "Source\\TestSite\\tsconfig.json",
+      "problemMatcher": [
+        "$tsc"
+      ]
     }
   ]
 }

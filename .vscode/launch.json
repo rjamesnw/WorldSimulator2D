@@ -6,7 +6,19 @@
     "compounds": [
         {
             "name": "ASP.Net Core & Browser",
-            "configurations": [".NET Core Launch (web)", "Launch Chrome", "Chrome Attach", ".NET Core Attach"]
+            "configurations": [
+                ".NET Core Launch (web)",
+                "Launch Chrome",
+                "Chrome Attach",
+                ".NET Core Attach"
+            ]
+        },
+        {
+            "name": "Node & Browser",
+            "configurations": [
+                "Launch Node",
+                "Launch Chrome"
+            ]
         }
     ],
     "configurations": [
@@ -45,11 +57,18 @@
             }
         },
         {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        },
+        {
             "name": "Launch Chrome",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:5000/",
-            "webRoot": "${workspaceFolder}/Source/WorldSimulator2D_IDE/wwwroot"
+            "preLaunchTask": "build ws2d",
+            "url": "http://localhost:3000/",
+            "webRoot": "${workspaceFolder}/Source/TestSite/wwwroot"
         },
         {
             "name": "Chrome Attach",
@@ -57,14 +76,41 @@
             "request": "attach",
             "port": 9222,
             "sourceMaps": true,
-            "url": "http://localhost:5000/",
-            "webRoot": "${workspaceFolder}/Source/WorldSimulator2D_IDE/wwwroot"
+            "url": "http://localhost:3000/",
+            "webRoot": "${workspaceFolder}/Source/TestSite/wwwroot"
         },
         {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
+            "name": "Launch Node",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/Source/TestSite/bin/www",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}/Source/TestSite/wwwroot",
+            "preLaunchTask": "build testsite",
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "outFiles": ["${workspaceFolder}/Source/TestSite/wwwroot/js"]
+        },
+        {
+            "name": "Attach Node",
+            "type": "node",
             "request": "attach",
-            "processId": "${command:pickProcess}"
+            "port": 5858,
+            "address": "localhost",
+            "restart": false,
+            "sourceMaps": false,
+            "outFiles": [],
+            "preLaunchTask": null,
+            "localRoot": "${workspaceFolder}/Source/WorldSimulator2D_IDE/wwwroot",
+            "remoteRoot": null
         }
     ]
 }
