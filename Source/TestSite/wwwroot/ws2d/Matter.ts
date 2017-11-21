@@ -80,6 +80,8 @@
 
         /** A color to use for this matter.  */
         color: string = 'FF808080';
+        private _rgb: number;
+        private _alpha: number;
 
         /**
         * How bright the matter is when not emitting it's own light (if any).
@@ -284,22 +286,28 @@
                     if (dCollide || hCollide || vCollide) {
                         if (dCollide) {
                             // ... collide with something diagonally ...
-                            state.velocity.x *= -0.03;
-                            state.velocity.y *= -0.03;
+                            state.velocity.x *= -0.06; // (bounce)
+                            state.velocity.y *= -0.06; // (bounce)
+                            (<IPhysicsObject>dcell.objects[0]).currentState.velocity.x *= -0.06;
+                            (<IPhysicsObject>dcell.objects[0]).currentState.velocity.y *= -0.06;
                             putBackX = true;
                             putBackY = true;
                         } else {
                             if (hCollide) {
                                 // ... collide with something on the side ...
-                                state.velocity.x *= -0.03;
-                                state.velocity.y *= -0.9;
+                                state.velocity.x *= -0.06; // (bounce)
+                                state.velocity.y *= 0.9; // (minor speed loss due to hit [heat, etc.])
+                                (<IPhysicsObject>hcell.objects[0]).currentState.velocity.x *= -0.06;
+                                (<IPhysicsObject>hcell.objects[0]).currentState.velocity.y *= 0.9;
                                 putBackX = true;
                             }
 
                             if (vCollide) {
                                 // ... collide with something above or below ...
-                                state.velocity.y *= -0.03;
-                                state.velocity.x *= -0.9;
+                                state.velocity.x *= 0.9; // (minor speed loss due to hit [heat, etc.])
+                                state.velocity.y *= -0.06; // (bounce)
+                                (<IPhysicsObject>vcell.objects[0]).currentState.velocity.x *= 0.9;
+                                (<IPhysicsObject>vcell.objects[0]).currentState.velocity.y *= -0.06;
                                 putBackY = true;
                             }
                         }
@@ -313,7 +321,6 @@
                     if (state.position.x != pstate.position.x || state.position.y != pstate.position.y)
                         layer['_OnObjectGridPositionChanged'](this);
                 }
-                else layer['_OnObjectGridPositionChanged'](this);
 
                 //var cell = this._gridCell;
                 //if (cell && cell.lastIndex > 0) { // (note: 'cell.lastIndex' is the last item; DO NOT go by array length)

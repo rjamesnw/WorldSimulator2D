@@ -45,8 +45,8 @@ function startYourEngines() {
         var m = initMatterList[Math.floor(Math.random() * initMatterList.length)].clone();
         m.x = 200 - Math.random() * 400;
         m.y = 200 - Math.random() * 400;
-        m.velocity.x = .1 - Math.random() * .2;
-        m.velocity.y = .1 - Math.random() * .2;
+        m.velocity.x = 10 - Math.random() * 20;
+        m.velocity.y = 10 - Math.random() * 20;
         var cell = layer.getGridCell(m);
         if (!cell || cell.lastIndex >= 0) { --i; continue; /*something is already here, or cell is out of bounds somehow; skip and try again*/ }
         layer.add(m);

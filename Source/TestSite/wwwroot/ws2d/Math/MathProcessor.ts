@@ -4,8 +4,8 @@
      * The maximum expected objects to be supported (soft limit).
      * This number is used to predict in advance how to split up buffers for processing calculation streams.
      */
-    export var MAX_OBJECTS = 5000;
-    export var MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10000;
+    export var MAX_OBJECTS = 10000;
+    export var MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10100;
     export var enablePostMathProcessing = true;
     export var enableCollisions = true;
 
@@ -333,7 +333,7 @@
                     \n\
                     vec2 v = vec2(a_vx, a_vy) + forceNormal; // (get new velocity)\n\
                     float vlen = 1e-20 + length(v);\n\
-                    v = float(vlen<=velocityScale*2.)*v + float(vlen>velocityScale*2.)*(v/vlen*velocityScale*2.); // (cap velocity; 'v/vlen' unit vec * velocityScale)\n\
+                    v = float(vlen<=velocityScale*1.)*v + float(vlen>velocityScale*1.)*(v/vlen*velocityScale*1.); // (cap velocity; 'v/vlen' unit vec * velocityScale)\n\
                     \n\
                     vec2 stepv = v/velocityScale;\n\
                     \n\

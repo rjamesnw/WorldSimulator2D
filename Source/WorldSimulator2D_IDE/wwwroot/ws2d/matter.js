@@ -178,21 +178,21 @@ var WorldSimulator2D;
                     if (dCollide || hCollide || vCollide) {
                         if (dCollide) {
                             // ... collide with something diagonally ...
-                            state.velocity.x *= -0.02;
-                            state.velocity.y *= -0.02;
+                            state.velocity.x *= -0.03;
+                            state.velocity.y *= -0.03;
                             putBackX = true;
                             putBackY = true;
                         }
                         else {
                             if (hCollide) {
                                 // ... collide with something on the side ...
-                                state.velocity.x *= -0.02;
+                                state.velocity.x *= -0.03;
                                 state.velocity.y *= -0.9;
                                 putBackX = true;
                             }
                             if (vCollide) {
                                 // ... collide with something above or below ...
-                                state.velocity.y *= -0.02;
+                                state.velocity.y *= -0.03;
                                 state.velocity.x *= -0.9;
                                 putBackY = true;
                             }
@@ -206,8 +206,6 @@ var WorldSimulator2D;
                     if (state.position.x != pstate.position.x || state.position.y != pstate.position.y)
                         layer['_OnObjectGridPositionChanged'](this);
                 }
-                else
-                    layer['_OnObjectGridPositionChanged'](this);
                 //var cell = this._gridCell;
                 //if (cell && cell.lastIndex > 0) { // (note: 'cell.lastIndex' is the last item; DO NOT go by array length)
                 //    var objects = cell.objects;

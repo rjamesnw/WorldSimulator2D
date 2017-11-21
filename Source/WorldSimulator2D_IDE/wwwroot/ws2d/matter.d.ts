@@ -57,6 +57,8 @@ declare namespace WorldSimulator2D {
         bounciness: number;
         /** A color to use for this matter.  */
         color: string;
+        private _rgb;
+        private _alpha;
         /**
         * How bright the matter is when not emitting it's own light (if any).
         * Valid values are 0.0 (dark) to 1.0 (fully lit). Values higher than 1 will start to overexpose the color and turn it towards white.

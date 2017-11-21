@@ -50,7 +50,7 @@ var WorldSimulator2D;
             * can cause and explosive force pushing objects apart.  This number is a cap to make sure this doesn't happen.
             * The default is the same size as the pixel size.
             */
-            _this.maxGravitationalForce = 1 / World.DefaultPixelSize / 1;
+            _this.maxGravitationalForce = 1 / 100;
             /** The physics velocity is scaled by this factor to prevent skipping particle grid locations at high velocities.
             * In the system, the force of gravity is treated like m/s^2 (a unit/s each second). This is applied to velocities which are in units/s.
             * Since the velocities are in units/s at a given point, the velocities are scaled by the second using this property. This
@@ -62,7 +62,7 @@ var WorldSimulator2D;
             _this.gravitationalScale = 1e13;
             /** Pressure of the atmosphere at altitude 0 (in kPa). */
             _this.atmosphericPressure = 101.325; // (https://goo.gl/DjVFB2)
-            _this._renderData = WorldSimulator2D.createFloat32ArrayBuffer(WorldSimulator2D.MAX_OBJECTS);
+            _this._renderData = WorldSimulator2D.createFloat32ArrayBuffer(WorldSimulator2D.MAX_OBJECTS * WorldSimulator2D.MathPipelines.ParticleRenderInputs.blockSize);
             _this.world = _this;
             _this.unmovable = true; // (physics objects default to movable)
             return _this;
@@ -271,14 +271,20 @@ var WorldSimulator2D;
                     }
                     this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.x] = item.currentState.position.x;
                     this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.y] = item.currentState.position.y;
-                    var color = item.color;
-                    if (typeof color != 'string')
-                        item.color = color = '' + color;
-                    while (color[0] == '#')
-                        color = color.slice(1); // (trim '#')
-                    var hasAlpha = color.length > 6;
-                    var rgbInt = parseInt(hasAlpha ? color.slice(-6) : color, 16); // (https://jsperf.com/hex-to-rgb-2)
-                    var alpha = hasAlpha ? (parseInt(color.slice(0, -6), 16) & 255) / 255 : 1;
+                    var rgbInt = item['_rgb'];
+                    var alpha = item['_alpha'];
+                    if (rgbInt === void 0 || alpha === void 0) {
+                        var color = item.color;
+                        if (typeof color != 'string')
+                            item.color = color = '' + color;
+                        while (color[0] == '#')
+                            color = color.slice(1); // (trim '#')
+                        var hasAlpha = color.length > 6;
+                        rgbInt = parseInt(hasAlpha ? color.slice(-6) : color, 16); // (https://jsperf.com/hex-to-rgb-2)
+                        alpha = hasAlpha ? (parseInt(color.slice(0, -6), 16) & 255) / 255 : 1;
+                        item['_rgb'] = rgbInt;
+                        item['_alpha'] = alpha;
+                    }
                     this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.colorRGB] = rgbInt;
                     this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.alpha] = alpha;
                     i2 += WorldSimulator2D.MathPipelines.ParticleRenderInputs.blockSize;
@@ -303,7 +309,7 @@ var WorldSimulator2D;
         World.type = WorldSimulator2D.PhysicsObject.type | WorldSimulator2D.ObjectTypes.World;
         World.DEFAULT_EARTH_MASS = 5.972e24; // kg
         World.DEFAULT_EARTH_RADIUS = 6371; // km
-        World.DefaultPixelSize = 16;
+        World.DefaultPixelSize = 4;
         // --------------------------------------------------------------------------------------------------------------------
         World._nonClonableProperties = (World._nonClonableProperties['element'] = void 0,
             World._nonClonableProperties['renderService'] = void 0,

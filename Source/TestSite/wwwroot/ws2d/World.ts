@@ -89,7 +89,7 @@
         * can cause and explosive force pushing objects apart.  This number is a cap to make sure this doesn't happen.
         * The default is the same size as the pixel size.
         */
-        maxGravitationalForce = 1 / 10;
+        maxGravitationalForce = 1 / 1;
 
         /** The physics velocity is scaled by this factor to prevent skipping particle grid locations at high velocities.
         * In the system, the force of gravity is treated like m/s^2 (a unit/s each second). This is applied to velocities which are in units/s.
@@ -100,7 +100,7 @@
         velocityScale = 1;
 
         /** Scales gravitational forces to be within the desired parameters of the world.  This allows visualizing large mass objects using small visual sprite objects. */
-        gravitationalScale = 1e13;
+        gravitationalScale = 1e15;
 
         /** Pressure of the atmosphere at altitude 0 (in kPa). */
         atmosphericPressure = 101.325; // (https://goo.gl/DjVFB2)
@@ -116,7 +116,7 @@
         /** The math processor to use for calculations in this world. */
         private processor: MathPipelines.MathProcessor;
 
-        private _renderData = createFloat32ArrayBuffer(MAX_OBJECTS);
+        private _renderData = createFloat32ArrayBuffer(MAX_OBJECTS * MathPipelines.ParticleRenderInputs.blockSize);
 
         // --------------------------------------------------------------------------------------------------------------------
 
@@ -370,14 +370,22 @@
                     this._renderData[i2 + MathPipelines.ParticleRenderInputs.x] = item.currentState.position.x;
                     this._renderData[i2 + MathPipelines.ParticleRenderInputs.y] = item.currentState.position.y;
 
-                    var color = item.color;
-                    if (typeof color != 'string') item.color = color = '' + color;
-                    while (color[0] == '#') color = color.slice(1);// (trim '#')
+                    var rgbInt = item['_rgb'];
+                    var alpha = item['_alpha'];
 
-                    var hasAlpha = color.length > 6;
-                    var rgbInt = parseInt(hasAlpha ? color.slice(-6) : color, 16); // (https://jsperf.com/hex-to-rgb-2)
-                    var alpha = hasAlpha ? (parseInt(color.slice(0, -6), 16) & 255) / 255 : 1;
+                    if (rgbInt === void 0 || alpha === void 0) {
+                        var color = item.color;
+                        if (typeof color != 'string') item.color = color = '' + color;
+                        while (color[0] == '#') color = color.slice(1);// (trim '#')
 
+                        var hasAlpha = color.length > 6;
+                        rgbInt = parseInt(hasAlpha ? color.slice(-6) : color, 16); // (https://jsperf.com/hex-to-rgb-2)
+                        alpha = hasAlpha ? (parseInt(color.slice(0, -6), 16) & 255) / 255 : 1;
+
+                        item['_rgb'] = rgbInt;
+                        item['_alpha'] = alpha;
+                    }
+                    
                     this._renderData[i2 + MathPipelines.ParticleRenderInputs.colorRGB] = rgbInt;
                     this._renderData[i2 + MathPipelines.ParticleRenderInputs.alpha] = alpha;
 

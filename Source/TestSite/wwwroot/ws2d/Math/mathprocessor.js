@@ -14,8 +14,8 @@ var WorldSimulator2D;
      * The maximum expected objects to be supported (soft limit).
      * This number is used to predict in advance how to split up buffers for processing calculation streams.
      */
-    WorldSimulator2D.MAX_OBJECTS = 50;
-    WorldSimulator2D.MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10000;
+    WorldSimulator2D.MAX_OBJECTS = 99000;
+    WorldSimulator2D.MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 99100;
     WorldSimulator2D.enablePostMathProcessing = true;
     WorldSimulator2D.enableCollisions = true;
     /**
