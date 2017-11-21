@@ -41,16 +41,25 @@ function startYourEngines() {
 
     var initMatterList = [m1, m2, m3, m4, m5];
 
-    for (var i = WS2D.MAX_OBJECTS / 4; i > 0; --i) {
+    for (var i = WS2D.MAX_OBJECTS - 10; i > 0; --i) {
         var m = initMatterList[Math.floor(Math.random() * initMatterList.length)].clone();
-        m.x = 800 - Math.random() * 1600;
-        m.y = 800 - Math.random() * 1600;
-        m.velocity.x = 1 - Math.random() * 2;
-        m.velocity.y = 1 - Math.random() * 2;
+        m.x = 200 - Math.random() * 400;
+        m.y = 200 - Math.random() * 400;
+        m.velocity.x = .1 - Math.random() * .2;
+        m.velocity.y = .1 - Math.random() * .2;
         var cell = layer.getGridCell(m);
         if (!cell || cell.lastIndex >= 0) { --i; continue; /*something is already here, or cell is out of bounds somehow; skip and try again*/ }
         layer.add(m);
     }
+    // m1.x = 5;
+    // m1.y = 0;
+    // layer.add(m1);
+    // m2.x = -10;
+    // m2.y = 0;
+    // layer.add(m2);
+    // m3.x = 10;
+    // m3.y = 0;
+    // layer.add(m3);
 
     /**
      * Update the game calculations.  This should be done BETWEEN render frames, started immediately after the first render.

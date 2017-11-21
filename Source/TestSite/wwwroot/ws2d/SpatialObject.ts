@@ -233,10 +233,12 @@
          * This function does not update any child objects, and only applies to the current object itself.
          */
         protected _updateGridWithPosition(): void {
-            var state = this.currentState, w = this.world, layer = this.layer;
-            if (!state.position.x) state.position.x = 0;
-            if (!state.position.y) state.position.y = 0;
-            this.layer['_OnObjectGridPositionChanged'](this);
+            if ((<typeof EngineObject>this.constructor).type & ObjectTypes.Matter) {
+                var state = this.currentState, w = this.world, layer = this.layer;
+                if (!state.position.x) state.position.x = 0;
+                if (!state.position.y) state.position.y = 0;
+                this.layer['_OnObjectGridPositionChanged'](this);
+            }
         }
 
         update(processor: MathPipelines.MathProcessor) { // (reminder: Y+ is UP)

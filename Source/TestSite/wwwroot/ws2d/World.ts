@@ -89,7 +89,7 @@
         * can cause and explosive force pushing objects apart.  This number is a cap to make sure this doesn't happen.
         * The default is the same size as the pixel size.
         */
-        maxGravitationalForce = World.DefaultPixelSize;
+        maxGravitationalForce = 1 / 10;
 
         /** The physics velocity is scaled by this factor to prevent skipping particle grid locations at high velocities.
         * In the system, the force of gravity is treated like m/s^2 (a unit/s each second). This is applied to velocities which are in units/s.
@@ -252,6 +252,8 @@
         }
 
         private _processResults(processor: WorldSimulator2D.MathPipelines.MathProcessor) {
+            if (!processor._glFeedbackBuffer) return; // (there is no feedback buffer, which means nothing was initially added yet to any math pipeline)
+
             var engine = this.engine, fbData = processor._glFeedbackBuffer.data, readIndex = 0;
             for (var plIndex = 0, pln = processor.mathPipelines.length; plIndex < pln; ++plIndex) {
                 var mathPipeline = processor.mathPipelines[plIndex]; // (there's only ever one group needed for CPU processing)

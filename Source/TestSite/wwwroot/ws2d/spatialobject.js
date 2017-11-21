@@ -167,12 +167,14 @@ var WorldSimulator2D;
          * This function does not update any child objects, and only applies to the current object itself.
          */
         SpatialObject.prototype._updateGridWithPosition = function () {
-            var state = this.currentState, w = this.world, layer = this.layer;
-            if (!state.position.x)
-                state.position.x = 0;
-            if (!state.position.y)
-                state.position.y = 0;
-            this.layer['_OnObjectGridPositionChanged'](this);
+            if (this.constructor.type & WorldSimulator2D.ObjectTypes.Matter) {
+                var state = this.currentState, w = this.world, layer = this.layer;
+                if (!state.position.x)
+                    state.position.x = 0;
+                if (!state.position.y)
+                    state.position.y = 0;
+                this.layer['_OnObjectGridPositionChanged'](this);
+            }
         };
         SpatialObject.prototype.update = function (processor) {
             var layer = this.layer, state = this.currentState, pstate = this.previousState;

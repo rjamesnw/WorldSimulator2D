@@ -167,9 +167,9 @@ var WorldSimulator2D;
             if (state.gridMoved) {
                 var layer = this.layer, putBackX = false, putBackY = false;
                 if (this.canCollide && WS2D.enableCollisions) {
-                    var hcell = layer.getGridCell(state.position.x, pstate.position.y); // (cell on the side)
+                    var hcell = layer.getGridCell(state.position.x, pstate.position.y); // (cell in horizontal direction of travel)
                     var hCollide = hcell && hcell != this._gridCell && hcell.lastIndex >= 0; // (if == this._gridCell then this is where we are so ignore)
-                    var vcell = layer.getGridCell(pstate.position.x, state.position.y); // (cell above or below)
+                    var vcell = layer.getGridCell(pstate.position.x, state.position.y); // (cell in vertical direction of travel)
                     var vCollide = vcell && vcell != this._gridCell && vcell.lastIndex >= 0; // (if == this._gridCell then this is where we are so ignore)
                     if (!hCollide && !vCollide) {
                         var dcell = layer.getGridCell(state.position.x, state.position.y); // (diagonal cell, if not blocked by h or v)
@@ -178,36 +178,36 @@ var WorldSimulator2D;
                     if (dCollide || hCollide || vCollide) {
                         if (dCollide) {
                             // ... collide with something diagonally ...
-                            state.velocity.x *= -0.01;
-                            state.velocity.y *= -0.01;
+                            state.velocity.x *= -0.02;
+                            state.velocity.y *= -0.02;
                             putBackX = true;
                             putBackY = true;
                         }
                         else {
                             if (hCollide) {
                                 // ... collide with something on the side ...
-                                state.velocity.x *= -0.01;
+                                state.velocity.x *= -0.02;
                                 state.velocity.y *= -0.9;
                                 putBackX = true;
                             }
                             if (vCollide) {
                                 // ... collide with something above or below ...
-                                state.velocity.y *= -0.01;
+                                state.velocity.y *= -0.02;
                                 state.velocity.x *= -0.9;
                                 putBackY = true;
                             }
                         }
                         // ... don't allow position to change into an occupied location ...
-                        if (putBackX) {
+                        if (putBackX)
                             state.position.x = pstate.position.x;
-                        }
-                        if (putBackY) {
+                        if (putBackY)
                             state.position.y = pstate.position.y;
-                        }
                     }
-                    if (!putBackX || !putBackY)
+                    if (state.position.x != pstate.position.x || state.position.y != pstate.position.y)
                         layer['_OnObjectGridPositionChanged'](this);
                 }
+                else
+                    layer['_OnObjectGridPositionChanged'](this);
                 //var cell = this._gridCell;
                 //if (cell && cell.lastIndex > 0) { // (note: 'cell.lastIndex' is the last item; DO NOT go by array length)
                 //    var objects = cell.objects;

@@ -82,11 +82,11 @@
      * Scans the GL enum values and categorizes them to make code completion more structured.
      */
     export class GLEnums {
-        private static _IsValid(value: number | Number): boolean { return !!this[+value]; }
+        private static _isValid(value: number | Number): boolean { return !!this[+value]; }
         /** WebGL capabilities that can enabled or disabled. */
         readonly RenderOptions = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** Activates blending of the computed fragment color values. See WebGLRenderingContext.blendFunc(). */
             BLEND: <RenderOption>void 0,
             /** Activates culling of polygons. See WebGLRenderingContext.cullFace(). */
@@ -108,7 +108,7 @@
             /** Open ES 3 (WebGL 2) supported render options. */
             WebGL2: {
                 /** Returns true if the specified value is a valid enum. */
-                IsValid: GLEnums._IsValid,
+                isValid: GLEnums._isValid,
                 /** (WebGL 2): Primitives are discarded immediately before the rasterization stage, but after the optional transform feedback stage. gl.clear() commands are ignored. */
                 RASTERIZER_DISCARD: <RenderOption>void 0
             }
@@ -117,7 +117,7 @@
         /** For specifying the number of components per vertex attribute, which must be 1, 2, 3, or 4. */
         readonly ArrayComponentSizes = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** Used for single value types, such as float or int only.*/
             One: <ComponentSize>1,
             /** Typically used with shader type 'vec2'. */
@@ -131,7 +131,7 @@
         /** The data type of each component in an array of buffer data. */
         readonly ArrayComponentTypes = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** A signed 8-bit integer, with values in [-128, 127]. */
             BYTE: <ComponentType>void 0,
             /** A signed 16-bit integer, with values in [-32768, 32767]. */
@@ -145,7 +145,7 @@
             /** Open ES 3 (WebGL 2) supported component types. */
             WebGL2: {
                 /** Returns true if the specified value is a valid enum. */
-                IsValid: GLEnums._IsValid,
+                isValid: GLEnums._isValid,
                 /** (WebGL 2): A 16-bit floating point number. */
                 HALF_FLOAT: <ComponentType>void 0
             }
@@ -154,7 +154,7 @@
         /** Specifies the usage pattern of a data store. This helps the GL driver decide how best to allocate and use stored data (typically used for buffer data). */
         readonly UsageTypes = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** Contents of the buffer are likely to be used often and not change often. Contents are written to the buffer, but not read. */
             STATIC_DRAW: <UsageType>void 0,
             /** Contents of the buffer are likely to be used often and change often. Contents are written to the buffer, but not read. */
@@ -164,7 +164,7 @@
             /** Open ES 3 (WebGL 2) supported usage types. */
             WebGL2: {
                 /** Returns true if the specified value is a valid enum. */
-                IsValid: GLEnums._IsValid,
+                isValid: GLEnums._isValid,
                 /** (WebGL 2): Contents of the buffer are likely to be used often and not change often. Contents are read from the buffer, but not written. */
                 STATIC_READ: <UsageType>void 0,
                 /** (WebGL 2): Contents of the buffer are likely to be used often and change often. Contents are read from the buffer, but not written. */
@@ -183,7 +183,7 @@
         /** WebGL buffer bind targets. */
         readonly BufferTargets = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** Buffer containing vertex attributes, such as vertex coordinates, texture coordinate data, or vertex color data. */
             ARRAY_BUFFER: <BufferTarget>void 0,
             /** Buffer used for element indices (indexes into array vertices). */
@@ -191,7 +191,7 @@
             /** Open ES 3 (WebGL 2) supported buffer targets. */
             WebGL2: {
                 /** Returns true if the specified value is a valid enum. */
-                IsValid: GLEnums._IsValid,
+                isValid: GLEnums._isValid,
                 /**  (Web GL 2): Buffer for copying from one buffer object to another. */
                 COPY_READ_BUFFER: <BufferTarget>void 0,
                 /**  (Web GL 2): Buffer for copying from one buffer object to another. */
@@ -210,7 +210,7 @@
         /** WebGL texture bind targets. */
         readonly TextureTargets = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** A two-dimensional texture. */
             TEXTURE_2D: <TextureTarget>void 0,
             /** A cube-mapped texture. */
@@ -218,7 +218,7 @@
             /** Open ES 3 (WebGL 2) supported texture targets. */
             WebGL2: {
                 /** Returns true if the specified value is a valid enum. */
-                IsValid: GLEnums._IsValid,
+                isValid: GLEnums._isValid,
                 /**  (Web GL 2): A three-dimensional texture. */
                 TEXTURE_3D: <TextureTarget>void 0,
                 /**  (Web GL 2): A two-dimensional array texture. */
@@ -229,7 +229,7 @@
         /** WebGL shader data types. The root types are for both WebGL 1 and 2.  See 'ShaderDataTypes.WebGL2' for WebGL2 supported enums. */
         readonly ShaderDataTypes = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** WebGL float data type. */
             FLOAT: <ShaderDataType>void 0,
             /** WebGL float based 'vec2' data type. */
@@ -268,7 +268,7 @@
             /** Open ES 3 (WebGL 2) supported data types. */
             WebGL2: {
                 /** Returns true if the specified value is a valid enum. */
-                IsValid: GLEnums._IsValid,
+                isValid: GLEnums._isValid,
                 /** WebGL 2+ unsigned integer based data type. */
                 UNSIGNED_INT: <ShaderDataType>void 0,
                 /** WebGL 2+ unsigned integer based 'vec2' data type. */
@@ -309,7 +309,7 @@
         /** Primitive types that can be rendered. */
         readonly PrimitiveTypeModes = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** Draws a single dot. */
             POINTS: <PrimitiveTypeMode>void 0,
             /** Draws a straight line to the next vertex. */
@@ -329,7 +329,7 @@
         /** (WebGL 2) The mode to use when capturing varying outputs from vertex shaders. */
         readonly FeedbackModes = {
             /** Returns true if the specified value is a valid enum. */
-            IsValid: GLEnums._IsValid,
+            isValid: GLEnums._isValid,
             /** The outputs are placed in order, which is then repeated, for a single buffer. */
             INTERLEAVED_ATTRIBS: <PrimitiveTypeMode>void 0,
             /** Each output is sent to a different buffer. */
@@ -358,6 +358,47 @@
                         this._updateEnumsForScope(ctx, o); // (check of there are nested objects that also need updating)
                     }
                 }
+        }
+
+        /** Returns the size (in bytes) of the data represented by the specified enum value.
+         * If the enum does not represent a data type with a predefined size in bytes, then undefined is returned.
+         */
+        sizeOf(enumValue: number | Number): number {
+            var val = +enumValue;
+            if (!val) return void 0;
+            switch (val) {
+                case this.ArrayComponentTypes.BYTE:
+                case this.ArrayComponentTypes.UNSIGNED_BYTE: return 1;
+                case this.ArrayComponentTypes.SHORT:
+                case this.ArrayComponentTypes.UNSIGNED_SHORT: return 2;
+                case this.ArrayComponentTypes.FLOAT: return 4;
+                case this.ArrayComponentTypes.WebGL2.HALF_FLOAT: return 2;
+
+                case this.ShaderDataTypes.BOOL: return 4; // (in uniform blocks this is stored as int32)
+                case this.ShaderDataTypes.BOOL_VEC2: return 4 * 2;
+                case this.ShaderDataTypes.BOOL_VEC3: return 4 * 3;
+                case this.ShaderDataTypes.BOOL_VEC4: return 4 * 4;
+
+                case this.ShaderDataTypes.INT: return 4;
+                case this.ShaderDataTypes.INT_VEC2: return 4 * 2;
+                case this.ShaderDataTypes.INT_VEC3: return 4 * 3;
+                case this.ShaderDataTypes.INT_VEC4: return 4 * 4;
+
+                case this.ShaderDataTypes.FLOAT: return 4;
+                case this.ShaderDataTypes.FLOAT_VEC2: return 4 * 2;
+                case this.ShaderDataTypes.FLOAT_VEC3: return 4 * 3;
+                case this.ShaderDataTypes.FLOAT_VEC4: return 4 * 4;
+                case this.ShaderDataTypes.FLOAT_MAT2: return 4 * 2 * 2;
+                case this.ShaderDataTypes.FLOAT_MAT3: return 4 * 3 * 3;
+                case this.ShaderDataTypes.FLOAT_MAT4: return 4 * 4 * 4;
+
+                case this.ShaderDataTypes.WebGL2.UNSIGNED_INT: return 4;
+                case this.ShaderDataTypes.WebGL2.UNSIGNED_INT_VEC2: return 4 * 2;
+                case this.ShaderDataTypes.WebGL2.UNSIGNED_INT_VEC3: return 4 * 4;
+                case this.ShaderDataTypes.WebGL2.UNSIGNED_INT_VEC4: return 4 * 5;
+
+                default: return void 0;
+            }
         }
     }
 
@@ -462,7 +503,11 @@
         constructor(shader: ShaderProgram, location: number, name: string, type?: ShaderDataType,
             buffer?: Buffer<IBufferArrayType>, count?: number);
 
-        constructor(shader: ShaderProgram, location: WebGLUniformLocation, name: string | WebGLActiveInfo, type?: ShaderDataType, buffer?: Buffer<IBufferArrayType>, public count?: number) {
+        /**
+         * @param count The number of uniforms (for arrays).  Everything else is usually 1.
+         */
+        constructor(shader: ShaderProgram, location: WebGLUniformLocation, name: string | WebGLActiveInfo, type?: ShaderDataType, buffer?: Buffer<IBufferArrayType>,
+            public count?: number) {
             super(shader, (<WebGLActiveInfo>name).name || <string>name,
                 typeof (<WebGLActiveInfo>name).type == 'number' ? (<WebGLActiveInfo>name).type : +type,
                 location,
@@ -653,6 +698,7 @@
         /** Set the first time 'Bind()' is called because 'gl.vertexAttribPointer()' takes the current buffer reference set in 'ARRAY_BUFFER' and holds onto it, so this helps keep track of it.  */
         private _buffer: Buffer;
         private _strideMismatchError: boolean;
+        private _warnAutoDetectedStride: boolean;
 
         constructor(public readonly attribute: ShaderAttribute, public attributeLocation: number, public componentSize?: ComponentSize, public type?: ComponentType, public normalized?: boolean, public stride?: number, public offset?: number) {
             if (!attribute) throw this._error("'attribute' is required.");
@@ -666,10 +712,10 @@
 
             var ctx = attribute.shader.ctx;
 
-            if (!ctx.enums.ArrayComponentTypes.IsValid(type))
+            if (!ctx.enums.ArrayComponentTypes.isValid(type))
                 if (!ctx.webgl2)
                     throw this._error("The type enum value " + type + " is not valid for WebGL 1.");
-                else if (!ctx.enums.ArrayComponentTypes.WebGL2.IsValid(type))
+                else if (!ctx.enums.ArrayComponentTypes.WebGL2.isValid(type))
                     throw this._error("The type enum value " + type + " is not valid for WebGL 2.");
 
             if (type === void 0) componentSize = ctx.enums.ArrayComponentTypes.FLOAT;
@@ -677,6 +723,7 @@
         }
 
         private _error(msg: string) { return Error(this.toString() + " error: " + msg); }
+        private _warn(msg: string) { this.attribute.shader.ctx.warn(this.toString() + ": " + msg); }
 
         toString() { return "Attribute Pointer (location=" + this.attributeLocation + ") for " + this.attribute.toString(); }
 
@@ -696,8 +743,25 @@
 
             // ... configure how to get data out of the buffer for this attribute position ...
 
-            var stride = this.stride || buffer.stride || 0;
+            var stride = this.stride || buffer.stride;
             var offset = this.offset || buffer.stride || 0;
+
+            if (!stride) {
+                // ... stride is set to auto-detect, so calculate it based on known attributes ...
+                stride = 0;
+                var attribs = this.attribute.shader.attributes;
+                for (var i = 0, n = attribs.length; i < n; ++i) {
+                    var attr = attribs[i], ptr = attr.pointer;
+                    if (!ptr) throw this._error("Cannot auto-detect stride for pointer binding as '" + attr.toString() + "' is missing a pointer definition.");
+                    var size = +ptr.componentSize * ctx.enums.sizeOf(ptr.type);
+                    if (!size) throw this._error("Could not determine size of pointer for '" + attr.toString() + "'. Please make sure component size and type is valid.");
+                    stride += size;
+                }
+                if (!this._warnAutoDetectedStride) {
+                    this._warn("Stride was auto-detected as " + stride + " based on attributes in the shader. To be more efficient you can specify the stride in advance via the associated buffer.");
+                    this._warnAutoDetectedStride = true;
+                }
+            }
 
             if (this.stride && this.stride != stride) {
                 if (!this._strideMismatchError)

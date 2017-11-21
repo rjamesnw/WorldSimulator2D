@@ -77,10 +77,10 @@ declare namespace WebGLJS {
      * Scans the GL enum values and categorizes them to make code completion more structured.
      */
     class GLEnums {
-        private static _IsValid(value);
+        private static _isValid(value);
         /** WebGL capabilities that can enabled or disabled. */
         readonly RenderOptions: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             BLEND: RenderOption;
             CULL_FACE: RenderOption;
             DEPTH_TEST: RenderOption;
@@ -91,13 +91,13 @@ declare namespace WebGLJS {
             SCISSOR_TEST: RenderOption;
             STENCIL_TEST: RenderOption;
             WebGL2: {
-                IsValid: (value: number | Number) => boolean;
+                isValid: (value: number | Number) => boolean;
                 RASTERIZER_DISCARD: RenderOption;
             };
         };
         /** For specifying the number of components per vertex attribute, which must be 1, 2, 3, or 4. */
         readonly ArrayComponentSizes: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             One: ComponentSize;
             Two: ComponentSize;
             Three: ComponentSize;
@@ -105,25 +105,25 @@ declare namespace WebGLJS {
         };
         /** The data type of each component in an array of buffer data. */
         readonly ArrayComponentTypes: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             BYTE: ComponentType;
             SHORT: ComponentType;
             UNSIGNED_BYTE: ComponentType;
             UNSIGNED_SHORT: ComponentType;
             FLOAT: ComponentType;
             WebGL2: {
-                IsValid: (value: number | Number) => boolean;
+                isValid: (value: number | Number) => boolean;
                 HALF_FLOAT: ComponentType;
             };
         };
         /** Specifies the usage pattern of a data store. This helps the GL driver decide how best to allocate and use stored data (typically used for buffer data). */
         readonly UsageTypes: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             STATIC_DRAW: UsageType;
             DYNAMIC_DRAW: UsageType;
             STREAM_DRAW: UsageType;
             WebGL2: {
-                IsValid: (value: number | Number) => boolean;
+                isValid: (value: number | Number) => boolean;
                 STATIC_READ: UsageType;
                 DYNAMIC_READ: UsageType;
                 STREAM_READ: UsageType;
@@ -134,11 +134,11 @@ declare namespace WebGLJS {
         };
         /** WebGL buffer bind targets. */
         readonly BufferTargets: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             ARRAY_BUFFER: BufferTarget;
             ELEMENT_ARRAY_BUFFER: BufferTarget;
             WebGL2: {
-                IsValid: (value: number | Number) => boolean;
+                isValid: (value: number | Number) => boolean;
                 COPY_READ_BUFFER: BufferTarget;
                 COPY_WRITE_BUFFER: BufferTarget;
                 TRANSFORM_FEEDBACK_BUFFER: BufferTarget;
@@ -149,18 +149,18 @@ declare namespace WebGLJS {
         };
         /** WebGL texture bind targets. */
         readonly TextureTargets: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             TEXTURE_2D: TextureTarget;
             TEXTURE_CUBE_MAP: TextureTarget;
             WebGL2: {
-                IsValid: (value: number | Number) => boolean;
+                isValid: (value: number | Number) => boolean;
                 TEXTURE_3D: TextureTarget;
                 TEXTURE_2D_ARRAY: TextureTarget;
             };
         };
         /** WebGL shader data types. The root types are for both WebGL 1 and 2.  See 'ShaderDataTypes.WebGL2' for WebGL2 supported enums. */
         readonly ShaderDataTypes: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             FLOAT: ShaderDataType;
             FLOAT_VEC2: ShaderDataType;
             FLOAT_VEC3: ShaderDataType;
@@ -179,7 +179,7 @@ declare namespace WebGLJS {
             SAMPLER_2D: ShaderDataType;
             SAMPLER_CUBE: ShaderDataType;
             WebGL2: {
-                IsValid: (value: number | Number) => boolean;
+                isValid: (value: number | Number) => boolean;
                 UNSIGNED_INT: ShaderDataType;
                 UNSIGNED_INT_VEC2: ShaderDataType;
                 UNSIGNED_INT_VEC3: ShaderDataType;
@@ -201,7 +201,7 @@ declare namespace WebGLJS {
         };
         /** Primitive types that can be rendered. */
         readonly PrimitiveTypeModes: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             POINTS: PrimitiveTypeMode;
             LINE_STRIP: PrimitiveTypeMode;
             LINE_LOOP: PrimitiveTypeMode;
@@ -212,13 +212,17 @@ declare namespace WebGLJS {
         };
         /** (WebGL 2) The mode to use when capturing varying outputs from vertex shaders. */
         readonly FeedbackModes: {
-            IsValid: (value: number | Number) => boolean;
+            isValid: (value: number | Number) => boolean;
             INTERLEAVED_ATTRIBS: PrimitiveTypeMode;
             SEPARATE_ATTRIBS: PrimitiveTypeMode;
         };
         private _updateEnums(ctx, enumObject);
         constructor(ctx: Context);
         private _updateEnumsForScope(ctx, scopeObj);
+        /** Returns the size (in bytes) of the data represented by the specified enum value.
+         * If the enum does not represent a data type with a predefined size in bytes, then undefined is returned.
+         */
+        sizeOf(enumValue: number | Number): number;
     }
     /** An interface for objects that can be bound to a WebGL context. */
     interface IBindable {
@@ -371,8 +375,10 @@ declare namespace WebGLJS {
         /** Set the first time 'Bind()' is called because 'gl.vertexAttribPointer()' takes the current buffer reference set in 'ARRAY_BUFFER' and holds onto it, so this helps keep track of it.  */
         private _buffer;
         private _strideMismatchError;
+        private _warnAutoDetectedStride;
         constructor(attribute: ShaderAttribute, attributeLocation: number, componentSize?: ComponentSize, type?: ComponentType, normalized?: boolean, stride?: number, offset?: number);
         private _error(msg);
+        private _warn(msg);
         toString(): string;
         /**
          * Binds the pointer to the underlying attribute location.

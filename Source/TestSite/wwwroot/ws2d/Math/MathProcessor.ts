@@ -4,10 +4,10 @@
      * The maximum expected objects to be supported (soft limit).
      * This number is used to predict in advance how to split up buffers for processing calculation streams.
      */
-    export var MAX_OBJECTS = 800;
-    export var MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 1000;
+    export var MAX_OBJECTS = 5000;
+    export var MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10000;
     export var enablePostMathProcessing = true;
-    export var enableCollisions = false;
+    export var enableCollisions = true;
 
     /**
      * Types and routines for processing calculations on piped float-based data streams.
@@ -323,8 +323,8 @@
                     // ... get world force on this object based on distance from world center ...\n\
                     vec2 diff = vec2(a_x2-a_x1, a_y2-a_y1);\n\
                     float len = length(diff);\n\
-                    float d = len / unitBlockSize * metersPerBlockSize / 2.; // (make sure it's in meters: d in world particles / particles per 1.75 meters * 1.75 to get the meters)\n\
-                    float f = (6.67408e-11 * a_m1 * a_m2) / (d * d) / gravitationalScale; // (constant 6.67e-11 scaled to 6.67e-6 because mass is also scaled by half the exponent)\n\
+                    float d = 1e-20 + len / unitBlockSize * metersPerBlockSize / 2.; // (make sure it's in meters: d in world particles / particles per 1.75 meters * 1.75 to get the meters)\n\
+                    float f = (6.67408e-11 * a_m1 * a_m2) / (d * d) / gravitationalScale;\n\
                     f = clamp(f, 0., maxGravitationalForce);\n\
                     vec2 dirNormal = normalize(diff); // (get force vectors) \n\
                     vec2 forceNormal = dirNormal * -f; // (get force vectors) \n\
@@ -332,11 +332,13 @@
                     // ... get the velocity of this object ...\n\
                     \n\
                     vec2 v = vec2(a_vx, a_vy) + forceNormal; // (get new velocity)\n\
+                    float vlen = 1e-20 + length(v);\n\
+                    v = float(vlen<=velocityScale*2.)*v + float(vlen>velocityScale*2.)*(v/vlen*velocityScale*2.); // (cap velocity; 'v/vlen' unit vec * velocityScale)\n\
+                    \n\
                     vec2 stepv = v/velocityScale;\n\
                     \n\
-                    vec2 absv = abs(stepv); \n\
-                    float step = max(absv.x, absv.y);\n\
-                    v = float(step<1.)*stepv + float(step>=1.)*(stepv/step);\n\
+                    float steplen = 1e-20 + length(stepv); \n\
+                    stepv = float(steplen<=1.)*stepv + float(steplen>1.)*(stepv/steplen);\n\
                     \n\
                     v_objectID = a_objectID;\n\
                     v_calcID = a_calcID;\n\

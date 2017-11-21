@@ -127,17 +127,17 @@
             // state.velocity.y += state.stepVelocity.y;
 
             // ... make sure the velocity doesn't move position more than one pixel; scale down if necessary ...
-            var vx = state.stepVelocity.x, vy = state.stepVelocity.y;
+            var svx = state.stepVelocity.x, svy = state.stepVelocity.y;
             // if (vx < -1 || vx > 1 || vy < -1 || vy > 1) {
             //     var absvx = vx < 0 ? -vx : vx, absvy = vy < 0 ? -vy : vy, v = absvx > absvy ? absvx : absvy;
             //     if (v > 1) { state.velocity.x = vx /= v; state.velocity.y = vy /= v; }
             // }
 
-            state.position.x += vx;
-            state.position.y += vy;
+            state.position.x += svx;
+            state.position.y += svy;
 
             var gravCalcPipe = processor.mathPipelines[MathPipelines.Types.GravityCalculation];
-            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count += gravCalcPipe.blockLength;
+            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count;
 
             buffer[i + MathPipelines.GravityCalculationInputs.objectID] = this.id;
             buffer[i + MathPipelines.GravityCalculationInputs.calcID] = 0; // (default world gravity)
@@ -150,6 +150,8 @@
             buffer[i + MathPipelines.GravityCalculationInputs.vx] = state.velocity.x;
             buffer[i + MathPipelines.GravityCalculationInputs.vy] = state.velocity.y;
 
+            buffer.count += gravCalcPipe.blockLength;
+
             if (buffer.count >= buffer.length)
                 gravCalcPipe.nextBuffer();
 
@@ -159,10 +161,10 @@
         postUpdate(buffer: Float32Array, index: number, piplineIndex: MathPipelines.Types): this {
             var state = this.currentState, calcID = buffer[index + MathPipelines.GravityCalculationOutputs.calcID];
             if (piplineIndex == MathPipelines.Types.GravityCalculation && calcID === 0) {
-                state.stepVelocity.x = buffer[index + MathPipelines.GravityCalculationOutputs.vstepx];
-                state.stepVelocity.y = buffer[index + MathPipelines.GravityCalculationOutputs.vstepy];
-                state.velocity.x = buffer[index + MathPipelines.GravityCalculationOutputs.vx];
-                state.velocity.y = buffer[index + MathPipelines.GravityCalculationOutputs.vy];
+                state.stepVelocity.x = buffer[index + MathPipelines.GravityCalculationOutputs.vstepx] || 0; // (just in case, to prevent NaN)
+                state.stepVelocity.y = buffer[index + MathPipelines.GravityCalculationOutputs.vstepy] || 0; // (just in case, to prevent NaN)
+                state.velocity.x = buffer[index + MathPipelines.GravityCalculationOutputs.vx] || 0; // (just in case, to prevent NaN)
+                state.velocity.y = buffer[index + MathPipelines.GravityCalculationOutputs.vy] || 0; // (just in case, to prevent NaN)
             }
             return super.postUpdate(buffer, index, piplineIndex);
         }

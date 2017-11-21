@@ -14,10 +14,10 @@ var WorldSimulator2D;
      * The maximum expected objects to be supported (soft limit).
      * This number is used to predict in advance how to split up buffers for processing calculation streams.
      */
-    WorldSimulator2D.MAX_OBJECTS = 800;
-    WorldSimulator2D.MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 1000;
+    WorldSimulator2D.MAX_OBJECTS = 50;
+    WorldSimulator2D.MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10000;
     WorldSimulator2D.enablePostMathProcessing = true;
-    WorldSimulator2D.enableCollisions = false;
+    WorldSimulator2D.enableCollisions = true;
     /**
      * Types and routines for processing calculations on piped float-based data streams.
      */
@@ -278,19 +278,22 @@ var WorldSimulator2D;
                     // ... get world force on this object based on distance from world center ...\n\
                     vec2 diff = vec2(a_x2-a_x1, a_y2-a_y1);\n\
                     float len = length(diff);\n\
-                    float d = len / unitBlockSize * metersPerBlockSize / 2.; // (make sure it's in meters: d in world particles / particles per 1.75 meters * 1.75 to get the meters)\n\
-                    float f = (6.67408e-11 * a_m1 * a_m2) / (d * d) / gravitationalScale; // (constant 6.67e-11 scaled to 6.67e-6 because mass is also scaled by half the exponent)\n\
+                    float d = 1e-20 + len / unitBlockSize * metersPerBlockSize / 2.; // (make sure it's in meters: d in world particles / particles per 1.75 meters * 1.75 to get the meters)\n\
+                    float f = (6.67408e-11 * a_m1 * a_m2) / (d * d) / gravitationalScale;\n\
                     f = clamp(f, 0., maxGravitationalForce);\n\
                     vec2 dirNormal = normalize(diff); // (get force vectors) \n\
                     vec2 forceNormal = dirNormal * -f; // (get force vectors) \n\
                     \n\
                     // ... get the velocity of this object ...\n\
                     \n\
-                    vec2 stepv = forceNormal / velocityScale;\n\
+                    vec2 v = vec2(a_vx, a_vy) + forceNormal; // (get new velocity)\n\
+                    float vlen = 1e-20 + length(v);\n\
+                    v = float(vlen<=velocityScale*2.)*v + float(vlen>velocityScale*2.)*(v/vlen*velocityScale*2.); // (cap velocity; 'v/vlen' unit vec * velocityScale)\n\
                     \n\
-                    vec2 v = vec2(a_vx + stepv.x, a_vy + stepv.y); // (get new velocity by adding the current step)\n\
-                    float vlen = length(v);\n\
-                    v = float(vlen<1.)*v + float(vlen>=1.)*(v/vlen);\n\
+                    vec2 stepv = v/velocityScale;\n\
+                    \n\
+                    float steplen = 1e-20 + length(stepv); \n\
+                    stepv = float(steplen<=1.)*stepv + float(steplen>1.)*(stepv/steplen);\n\
                     \n\
                     v_objectID = a_objectID;\n\
                     v_calcID = a_calcID;\n\

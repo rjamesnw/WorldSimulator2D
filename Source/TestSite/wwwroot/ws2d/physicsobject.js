@@ -110,18 +110,15 @@ var WorldSimulator2D;
             // state.velocity.x += state.stepVelocity.x;
             // state.velocity.y += state.stepVelocity.y;
             // ... make sure the velocity doesn't move position more than one pixel; scale down if necessary ...
-            var vx = state.velocity.x, vy = state.velocity.y;
-            if (vx < -1 || vx > 1 || vy < -1 || vy > 1) {
-                var absvx = vx < 0 ? -vx : vx, absvy = vy < 0 ? -vy : vy, v = absvx > absvy ? absvx : absvy;
-                if (v > 1) {
-                    state.velocity.x = vx /= v;
-                    state.velocity.y = vy /= v;
-                }
-            }
-            state.position.x += vx;
-            state.position.y += vy;
+            var svx = state.stepVelocity.x, svy = state.stepVelocity.y;
+            // if (vx < -1 || vx > 1 || vy < -1 || vy > 1) {
+            //     var absvx = vx < 0 ? -vx : vx, absvy = vy < 0 ? -vy : vy, v = absvx > absvy ? absvx : absvy;
+            //     if (v > 1) { state.velocity.x = vx /= v; state.velocity.y = vy /= v; }
+            // }
+            state.position.x += svx;
+            state.position.y += svy;
             var gravCalcPipe = processor.mathPipelines[WorldSimulator2D.MathPipelines.Types.GravityCalculation];
-            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count += gravCalcPipe.blockLength;
+            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count;
             buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.objectID] = this.id;
             buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.calcID] = 0; // (default world gravity)
             buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.m1] = w.mass;
@@ -132,6 +129,7 @@ var WorldSimulator2D;
             buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.y2] = state.position.y;
             buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.vx] = state.velocity.x;
             buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.vy] = state.velocity.y;
+            buffer.count += gravCalcPipe.blockLength;
             if (buffer.count >= buffer.length)
                 gravCalcPipe.nextBuffer();
             return _super.prototype.update.call(this, processor);
@@ -139,10 +137,10 @@ var WorldSimulator2D;
         PhysicsObject.prototype.postUpdate = function (buffer, index, piplineIndex) {
             var state = this.currentState, calcID = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.calcID];
             if (piplineIndex == WorldSimulator2D.MathPipelines.Types.GravityCalculation && calcID === 0) {
-                state.stepVelocity.x = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vstepx];
-                state.stepVelocity.y = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vstepy];
-                state.velocity.x = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vx];
-                state.velocity.y = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vy];
+                state.stepVelocity.x = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vstepx] || 0; // (just in case, to prevent NaN)
+                state.stepVelocity.y = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vstepy] || 0; // (just in case, to prevent NaN)
+                state.velocity.x = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vx] || 0; // (just in case, to prevent NaN)
+                state.velocity.y = buffer[index + WorldSimulator2D.MathPipelines.GravityCalculationOutputs.vy] || 0; // (just in case, to prevent NaN)
             }
             return _super.prototype.postUpdate.call(this, buffer, index, piplineIndex);
         };

@@ -148,7 +148,7 @@
                 void main() {\n\
                     int rgb = int(a_colorRGB);\n\
                     v_color = vec4(float((rgb>>16)&0xff)/255., float((rgb>>8)&0xff)/255., float(rgb&0xff)/255., a_alpha);\n\
-                    gl_Position = vec4(float(int(a_pos.x / pixelSize)) * pixelSize / (width / 2.), float(int(a_pos.y / pixelSize)) * pixelSize / (height / 2.), 0., 1.);\n\
+                    gl_Position = vec4(float(int(a_pos.x)) * pixelSize / (width / 2.), float(int(a_pos.y)) * pixelSize / (height / 2.), 0., 1.);\n\
                     gl_PointSize = pixelSize;\n\
                 }";
         };
