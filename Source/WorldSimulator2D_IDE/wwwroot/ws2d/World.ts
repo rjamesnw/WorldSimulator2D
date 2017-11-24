@@ -385,9 +385,9 @@
                         item['_rgb'] = rgbInt;
                         item['_alpha'] = alpha;
                     }
-                    
+
                     this._renderData[i2 + MathPipelines.ParticleRenderInputs.colorRGB] = rgbInt;
-                    this._renderData[i2 + MathPipelines.ParticleRenderInputs.alpha] = alpha;
+                    this._renderData[i2 + MathPipelines.ParticleRenderInputs.alpha] = 1 - Math.abs(item.currentState.stepVelocity.x + item.currentState.stepVelocity.y) / 2 * 0.9; //alpha;
 
                     i2 += MathPipelines.ParticleRenderInputs.blockSize;
                 }

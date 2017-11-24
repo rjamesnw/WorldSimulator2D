@@ -14,8 +14,8 @@ var WorldSimulator2D;
      * The maximum expected objects to be supported (soft limit).
      * This number is used to predict in advance how to split up buffers for processing calculation streams.
      */
-    WorldSimulator2D.MAX_OBJECTS = 99000;
-    WorldSimulator2D.MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 99100;
+    WorldSimulator2D.MAX_OBJECTS = 8000;
+    WorldSimulator2D.MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10100;
     WorldSimulator2D.enablePostMathProcessing = true;
     WorldSimulator2D.enableCollisions = true;
     /**
@@ -288,7 +288,7 @@ var WorldSimulator2D;
                     \n\
                     vec2 v = vec2(a_vx, a_vy) + forceNormal; // (get new velocity)\n\
                     float vlen = 1e-20 + length(v);\n\
-                    v = float(vlen<=velocityScale*2.)*v + float(vlen>velocityScale*2.)*(v/vlen*velocityScale*2.); // (cap velocity; 'v/vlen' unit vec * velocityScale)\n\
+                    v = float(vlen<=velocityScale*1.)*v + float(vlen>velocityScale*1.)*(v/vlen*velocityScale*1.); // (cap velocity; 'v/vlen' unit vec * velocityScale)\n\
                     \n\
                     vec2 stepv = v/velocityScale;\n\
                     \n\

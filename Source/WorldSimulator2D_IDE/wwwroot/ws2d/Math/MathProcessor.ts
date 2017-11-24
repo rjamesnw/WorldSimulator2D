@@ -4,7 +4,7 @@
      * The maximum expected objects to be supported (soft limit).
      * This number is used to predict in advance how to split up buffers for processing calculation streams.
      */
-    export var MAX_OBJECTS = 10000;
+    export var MAX_OBJECTS = 8000;
     export var MAX_CALCULATIONS_PER_PIPELINE_BUFFER = 10100;
     export var enablePostMathProcessing = true;
     export var enableCollisions = true;

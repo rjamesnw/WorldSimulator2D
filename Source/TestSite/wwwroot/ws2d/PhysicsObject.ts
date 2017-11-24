@@ -136,25 +136,6 @@
             state.position.x += svx;
             state.position.y += svy;
 
-            var gravCalcPipe = processor.mathPipelines[MathPipelines.Types.GravityCalculation];
-            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count;
-
-            buffer[i + MathPipelines.GravityCalculationInputs.objectID] = this.id;
-            buffer[i + MathPipelines.GravityCalculationInputs.calcID] = 0; // (default world gravity)
-            buffer[i + MathPipelines.GravityCalculationInputs.m1] = w.mass;
-            buffer[i + MathPipelines.GravityCalculationInputs.m2] = this.mass;
-            buffer[i + MathPipelines.GravityCalculationInputs.x1] = 0;
-            buffer[i + MathPipelines.GravityCalculationInputs.y1] = 0;
-            buffer[i + MathPipelines.GravityCalculationInputs.x2] = state.position.x;
-            buffer[i + MathPipelines.GravityCalculationInputs.y2] = state.position.y;
-            buffer[i + MathPipelines.GravityCalculationInputs.vx] = state.velocity.x;
-            buffer[i + MathPipelines.GravityCalculationInputs.vy] = state.velocity.y;
-
-            buffer.count += gravCalcPipe.blockLength;
-
-            if (buffer.count >= buffer.length)
-                gravCalcPipe.nextBuffer();
-
             return super.update(processor);
         }
 

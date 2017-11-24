@@ -50,7 +50,7 @@ var WorldSimulator2D;
             * can cause and explosive force pushing objects apart.  This number is a cap to make sure this doesn't happen.
             * The default is the same size as the pixel size.
             */
-            _this.maxGravitationalForce = 1 / 100;
+            _this.maxGravitationalForce = 1 / 1;
             /** The physics velocity is scaled by this factor to prevent skipping particle grid locations at high velocities.
             * In the system, the force of gravity is treated like m/s^2 (a unit/s each second). This is applied to velocities which are in units/s.
             * Since the velocities are in units/s at a given point, the velocities are scaled by the second using this property. This
@@ -59,7 +59,7 @@ var WorldSimulator2D;
             */
             _this.velocityScale = 1;
             /** Scales gravitational forces to be within the desired parameters of the world.  This allows visualizing large mass objects using small visual sprite objects. */
-            _this.gravitationalScale = 1e13;
+            _this.gravitationalScale = 1e15;
             /** Pressure of the atmosphere at altitude 0 (in kPa). */
             _this.atmosphericPressure = 101.325; // (https://goo.gl/DjVFB2)
             _this._renderData = WorldSimulator2D.createFloat32ArrayBuffer(WorldSimulator2D.MAX_OBJECTS * WorldSimulator2D.MathPipelines.ParticleRenderInputs.blockSize);
@@ -286,7 +286,7 @@ var WorldSimulator2D;
                         item['_alpha'] = alpha;
                     }
                     this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.colorRGB] = rgbInt;
-                    this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.alpha] = alpha;
+                    this._renderData[i2 + WorldSimulator2D.MathPipelines.ParticleRenderInputs.alpha] = 1 - Math.abs(item.currentState.stepVelocity.x + item.currentState.stepVelocity.y) / 2 * 0.9; //alpha;
                     i2 += WorldSimulator2D.MathPipelines.ParticleRenderInputs.blockSize;
                 }
             }

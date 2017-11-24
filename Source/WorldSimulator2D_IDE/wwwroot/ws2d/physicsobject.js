@@ -117,21 +117,6 @@ var WorldSimulator2D;
             // }
             state.position.x += svx;
             state.position.y += svy;
-            var gravCalcPipe = processor.mathPipelines[WorldSimulator2D.MathPipelines.Types.GravityCalculation];
-            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.objectID] = this.id;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.calcID] = 0; // (default world gravity)
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.m1] = w.mass;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.m2] = this.mass;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.x1] = 0;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.y1] = 0;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.x2] = state.position.x;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.y2] = state.position.y;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.vx] = state.velocity.x;
-            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.vy] = state.velocity.y;
-            buffer.count += gravCalcPipe.blockLength;
-            if (buffer.count >= buffer.length)
-                gravCalcPipe.nextBuffer();
             return _super.prototype.update.call(this, processor);
         };
         PhysicsObject.prototype.postUpdate = function (buffer, index, piplineIndex) {

@@ -160,12 +160,12 @@ var WorldSimulator2D;
             return _super.prototype.startup.call(this);
         };
         Matter.prototype.update = function (processor) {
-            var state = this.currentState, pstate = this.previousState;
+            var state = this.currentState, pstate = this.previousState, w = this.world;
             if (this.parent && this.parent.world && this.temperature == void 0)
                 this.temperature = this.parent.world.currentTemperature; // (default to world temperature the first time)
             _super.prototype.update.call(this, processor); // (will update position)
             if (state.gridMoved) {
-                var layer = this.layer, putBackX = false, putBackY = false;
+                var layer = this.layer;
                 if (this.canCollide && WS2D.enableCollisions) {
                     var hcell = layer.getGridCell(state.position.x, pstate.position.y); // (cell in horizontal direction of travel)
                     var hCollide = hcell && hcell != this._gridCell && hcell.lastIndex >= 0; // (if == this._gridCell then this is where we are so ignore)
@@ -175,33 +175,35 @@ var WorldSimulator2D;
                         var dcell = layer.getGridCell(state.position.x, state.position.y); // (diagonal cell, if not blocked by h or v)
                         var dCollide = dcell && dcell != this._gridCell && dcell.lastIndex > 0;
                     }
+                    var bounciness = 0.8; // (0 = no bounce, 1 = full bounce)
                     if (dCollide || hCollide || vCollide) {
                         if (dCollide) {
                             // ... collide with something diagonally ...
-                            state.velocity.x *= -0.03;
-                            state.velocity.y *= -0.03;
-                            putBackX = true;
-                            putBackY = true;
+                            dcell.objects[0].currentState.velocity.x += state.velocity.x;
+                            dcell.objects[0].currentState.velocity.y += state.velocity.y;
+                            state.velocity.x *= -bounciness; // (bounce)
+                            state.velocity.y *= -bounciness; // (bounce)
+                            state.position.x = pstate.position.x; // (don't allow position to change into an occupied location)
+                            state.position.y = pstate.position.y; // (don't allow position to change into an occupied location)
                         }
                         else {
                             if (hCollide) {
                                 // ... collide with something on the side ...
-                                state.velocity.x *= -0.03;
-                                state.velocity.y *= -0.9;
-                                putBackX = true;
+                                hcell.objects[0].currentState.velocity.x += state.velocity.x;
+                                hcell.objects[0].currentState.velocity.y *= 0.999;
+                                state.velocity.x *= -bounciness; // (bounce)
+                                state.velocity.y *= 0.999; // (minor speed loss due to hit [heat, etc.])
+                                state.position.x = pstate.position.x; // (don't allow position to change into an occupied location)
                             }
                             if (vCollide) {
                                 // ... collide with something above or below ...
-                                state.velocity.y *= -0.03;
-                                state.velocity.x *= -0.9;
-                                putBackY = true;
+                                vcell.objects[0].currentState.velocity.x *= 0.999;
+                                vcell.objects[0].currentState.velocity.y += state.velocity.y;
+                                state.velocity.x *= 0.999; // (minor speed loss due to hit [heat, etc.])
+                                state.velocity.y *= -bounciness; // (bounce)
+                                state.position.y = pstate.position.y; // (don't allow position to change into an occupied location)
                             }
                         }
-                        // ... don't allow position to change into an occupied location ...
-                        if (putBackX)
-                            state.position.x = pstate.position.x;
-                        if (putBackY)
-                            state.position.y = pstate.position.y;
                     }
                     if (state.position.x != pstate.position.x || state.position.y != pstate.position.y)
                         layer['_OnObjectGridPositionChanged'](this);
@@ -243,6 +245,22 @@ var WorldSimulator2D;
             // NOTE: The it's important to make sure both matter and world objects have already handled x, y, gridX, and gridY
             // calculations, including results of collisions and moving back due to collisions, BEFORE returning from this point.
             // After returning, if the object was detected as moving its position, the layer will update the grid location.
+            // ... calculate grav forces for this particle ...
+            var gravCalcPipe = processor.mathPipelines[WorldSimulator2D.MathPipelines.Types.GravityCalculation];
+            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.objectID] = this.id;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.calcID] = 0; // (default world gravity)
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.m1] = w.mass;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.m2] = this.mass;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.x1] = 0;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.y1] = 0;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.x2] = state.position.x;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.y2] = state.position.y;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.vx] = state.velocity.x;
+            buffer[i + WorldSimulator2D.MathPipelines.GravityCalculationInputs.vy] = state.velocity.y;
+            buffer.count += gravCalcPipe.blockLength;
+            if (buffer.count >= buffer.length)
+                gravCalcPipe.nextBuffer();
             return this;
         };
         Matter.prototype.postUpdate = function (buffer, index, piplineIndex) {

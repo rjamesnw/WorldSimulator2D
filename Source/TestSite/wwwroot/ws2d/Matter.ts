@@ -260,7 +260,7 @@
         }
 
         update(processor: MathPipelines.MathProcessor) {
-            var state = this.currentState, pstate = this.previousState;
+            var state = this.currentState, pstate = this.previousState, w = this.world;
 
             if (this.parent && this.parent.world && this.temperature == void 0)
                 this.temperature = this.parent.world.currentTemperature; // (default to world temperature the first time)
@@ -268,7 +268,7 @@
             super.update(processor); // (will update position)
 
             if (state.gridMoved) {
-                var layer = this.layer, putBackX = false, putBackY = false;
+                var layer = this.layer;
 
                 if (this.canCollide && WS2D.enableCollisions) {
 
@@ -283,39 +283,36 @@
                         var dCollide = dcell && dcell != this._gridCell && dcell.lastIndex > 0;
                     }
 
+                    var bounciness = 0.8; // (0 = no bounce, 1 = full bounce)
+
                     if (dCollide || hCollide || vCollide) {
                         if (dCollide) {
                             // ... collide with something diagonally ...
-                            state.velocity.x *= -0.06; // (bounce)
-                            state.velocity.y *= -0.06; // (bounce)
-                            (<IPhysicsObject>dcell.objects[0]).currentState.velocity.x *= -0.06;
-                            (<IPhysicsObject>dcell.objects[0]).currentState.velocity.y *= -0.06;
-                            putBackX = true;
-                            putBackY = true;
+                            (<IPhysicsObject>dcell.objects[0]).currentState.velocity.x += state.velocity.x;
+                            (<IPhysicsObject>dcell.objects[0]).currentState.velocity.y += state.velocity.y;
+                            state.velocity.x *= -bounciness; // (bounce)
+                            state.velocity.y *= -bounciness; // (bounce)
+                            state.position.x = pstate.position.x; // (don't allow position to change into an occupied location)
+                            state.position.y = pstate.position.y; // (don't allow position to change into an occupied location)
                         } else {
                             if (hCollide) {
                                 // ... collide with something on the side ...
-                                state.velocity.x *= -0.06; // (bounce)
-                                state.velocity.y *= 0.9; // (minor speed loss due to hit [heat, etc.])
-                                (<IPhysicsObject>hcell.objects[0]).currentState.velocity.x *= -0.06;
-                                (<IPhysicsObject>hcell.objects[0]).currentState.velocity.y *= 0.9;
-                                putBackX = true;
+                                (<IPhysicsObject>hcell.objects[0]).currentState.velocity.x += state.velocity.x;
+                                (<IPhysicsObject>hcell.objects[0]).currentState.velocity.y *= 0.999;
+                                state.velocity.x *= -bounciness; // (bounce)
+                                state.velocity.y *= 0.999; // (minor speed loss due to hit [heat, etc.])
+                                state.position.x = pstate.position.x; // (don't allow position to change into an occupied location)
                             }
 
                             if (vCollide) {
                                 // ... collide with something above or below ...
-                                state.velocity.x *= 0.9; // (minor speed loss due to hit [heat, etc.])
-                                state.velocity.y *= -0.06; // (bounce)
-                                (<IPhysicsObject>vcell.objects[0]).currentState.velocity.x *= 0.9;
-                                (<IPhysicsObject>vcell.objects[0]).currentState.velocity.y *= -0.06;
-                                putBackY = true;
+                                (<IPhysicsObject>vcell.objects[0]).currentState.velocity.x *= 0.999;
+                                (<IPhysicsObject>vcell.objects[0]).currentState.velocity.y += state.velocity.y;
+                                state.velocity.x *= 0.999; // (minor speed loss due to hit [heat, etc.])
+                                state.velocity.y *= -bounciness; // (bounce)
+                                state.position.y = pstate.position.y; // (don't allow position to change into an occupied location)
                             }
                         }
-
-                        // ... don't allow position to change into an occupied location ...
-
-                        if (putBackX) state.position.x = pstate.position.x;
-                        if (putBackY) state.position.y = pstate.position.y;
                     }
 
                     if (state.position.x != pstate.position.x || state.position.y != pstate.position.y)
@@ -360,6 +357,27 @@
             // NOTE: The it's important to make sure both matter and world objects have already handled x, y, gridX, and gridY
             // calculations, including results of collisions and moving back due to collisions, BEFORE returning from this point.
             // After returning, if the object was detected as moving its position, the layer will update the grid location.
+
+            // ... calculate grav forces for this particle ...
+
+            var gravCalcPipe = processor.mathPipelines[MathPipelines.Types.GravityCalculation];
+            var buffer = gravCalcPipe.buffers[gravCalcPipe.bufferWriteIndex], i = buffer.count;
+
+            buffer[i + MathPipelines.GravityCalculationInputs.objectID] = this.id;
+            buffer[i + MathPipelines.GravityCalculationInputs.calcID] = 0; // (default world gravity)
+            buffer[i + MathPipelines.GravityCalculationInputs.m1] = w.mass;
+            buffer[i + MathPipelines.GravityCalculationInputs.m2] = this.mass;
+            buffer[i + MathPipelines.GravityCalculationInputs.x1] = 0;
+            buffer[i + MathPipelines.GravityCalculationInputs.y1] = 0;
+            buffer[i + MathPipelines.GravityCalculationInputs.x2] = state.position.x;
+            buffer[i + MathPipelines.GravityCalculationInputs.y2] = state.position.y;
+            buffer[i + MathPipelines.GravityCalculationInputs.vx] = state.velocity.x;
+            buffer[i + MathPipelines.GravityCalculationInputs.vy] = state.velocity.y;
+
+            buffer.count += gravCalcPipe.blockLength;
+
+            if (buffer.count >= buffer.length)
+                gravCalcPipe.nextBuffer();
 
             return this;
         }
