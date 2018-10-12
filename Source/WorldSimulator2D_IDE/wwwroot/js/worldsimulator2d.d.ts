@@ -77,148 +77,253 @@ declare namespace WebGLJS {
      * Scans the GL enum values and categorizes them to make code completion more structured.
      */
     class GLEnums {
-        private static _isValid(value);
+        private static _isValid;
         /** WebGL capabilities that can enabled or disabled. */
         readonly RenderOptions: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** Activates blending of the computed fragment color values. See WebGLRenderingContext.blendFunc(). */
             BLEND: RenderOption;
+            /** Activates culling of polygons. See WebGLRenderingContext.cullFace(). */
             CULL_FACE: RenderOption;
+            /** Activates depth comparisons and updates to the depth buffer. See WebGLRenderingContext.depthFunc(). */
             DEPTH_TEST: RenderOption;
+            /** Activates dithering of color components before they get written to the color buffer. */
             DITHER: RenderOption;
+            /** Activates adding an offset to depth values of polygon's fragments. See WebGLRenderingContext.polygonOffset(). */
             POLYGON_OFFSET_FILL: RenderOption;
+            /** Activates the computation of a temporary coverage value determined by the alpha value. */
             SAMPLE_ALPHA_TO_COVERAGE: RenderOption;
+            /** Activates ANDing the fragment's coverage with the temporary coverage value. See WebGLRenderingContext.sampleCoverage(). */
             SAMPLE_COVERAGE: RenderOption;
+            /** Activates the scissor test that discards fragments that are outside of the scissor rectangle. See WebGLRenderingContext.scissor(). */
             SCISSOR_TEST: RenderOption;
+            /** Activates stencil testing and updates to the stencil buffer. See WebGLRenderingContext.stencilFunc(). */
             STENCIL_TEST: RenderOption;
+            /** Open ES 3 (WebGL 2) supported render options. */
             WebGL2: {
-                isValid: (value: number | Number) => boolean;
+                /** Returns true if the specified value is a valid enum. */
+                isValid: typeof GLEnums._isValid;
+                /** (WebGL 2): Primitives are discarded immediately before the rasterization stage, but after the optional transform feedback stage. gl.clear() commands are ignored. */
                 RASTERIZER_DISCARD: RenderOption;
             };
         };
         /** For specifying the number of components per vertex attribute, which must be 1, 2, 3, or 4. */
         readonly ArrayComponentSizes: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** Used for single value types, such as float or int only.*/
             One: ComponentSize;
+            /** Typically used with shader type 'vec2'. */
             Two: ComponentSize;
+            /** Typically used with shader type 'vec3'. */
             Three: ComponentSize;
+            /** Typically used with shader type 'vec4'. */
             Four: ComponentSize;
         };
         /** The data type of each component in an array of buffer data. */
         readonly ArrayComponentTypes: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** A signed 8-bit integer, with values in [-128, 127]. */
             BYTE: ComponentType;
+            /** A signed 16-bit integer, with values in [-32768, 32767]. */
             SHORT: ComponentType;
+            /** An unsigned 8-bit integer, with values in [0, 255]. */
             UNSIGNED_BYTE: ComponentType;
+            /** An unsigned 16-bit integer, with values in [0, 65535]. */
             UNSIGNED_SHORT: ComponentType;
+            /** A 32-bit floating point number. */
             FLOAT: ComponentType;
+            /** Open ES 3 (WebGL 2) supported component types. */
             WebGL2: {
-                isValid: (value: number | Number) => boolean;
+                /** Returns true if the specified value is a valid enum. */
+                isValid: typeof GLEnums._isValid;
+                /** (WebGL 2): A 16-bit floating point number. */
                 HALF_FLOAT: ComponentType;
             };
         };
         /** Specifies the usage pattern of a data store. This helps the GL driver decide how best to allocate and use stored data (typically used for buffer data). */
         readonly UsageTypes: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** Contents of the buffer are likely to be used often and not change often. Contents are written to the buffer, but not read. */
             STATIC_DRAW: UsageType;
+            /** Contents of the buffer are likely to be used often and change often. Contents are written to the buffer, but not read. */
             DYNAMIC_DRAW: UsageType;
+            /** Contents of the buffer are likely to not be used often. Contents are written to the buffer, but not read. */
             STREAM_DRAW: UsageType;
+            /** Open ES 3 (WebGL 2) supported usage types. */
             WebGL2: {
-                isValid: (value: number | Number) => boolean;
+                /** Returns true if the specified value is a valid enum. */
+                isValid: typeof GLEnums._isValid;
+                /** (WebGL 2): Contents of the buffer are likely to be used often and not change often. Contents are read from the buffer, but not written. */
                 STATIC_READ: UsageType;
+                /** (WebGL 2): Contents of the buffer are likely to be used often and change often. Contents are read from the buffer, but not written. */
                 DYNAMIC_READ: UsageType;
+                /** (WebGL 2): Contents of the buffer are likely to not be used often. Contents are read from the buffer, but not written. */
                 STREAM_READ: UsageType;
+                /** (WebGL 2): Contents of the buffer are likely to be used often and not change often. Contents are neither written or read by the user. */
                 STATIC_COPY: UsageType;
+                /** (WebGL 2): Contents of the buffer are likely to be used often and change often. Contents are neither written or read by the user. */
                 DYNAMIC_COPY: UsageType;
+                /** (WebGL 2): Contents of the buffer are likely to be used often and not change often. Contents are neither written or read by the user. */
                 STREAM_COPY: UsageType;
             };
         };
         /** WebGL buffer bind targets. */
         readonly BufferTargets: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** Buffer containing vertex attributes, such as vertex coordinates, texture coordinate data, or vertex color data. */
             ARRAY_BUFFER: BufferTarget;
+            /** Buffer used for element indices (indexes into array vertices). */
             ELEMENT_ARRAY_BUFFER: BufferTarget;
+            /** Open ES 3 (WebGL 2) supported buffer targets. */
             WebGL2: {
-                isValid: (value: number | Number) => boolean;
+                /** Returns true if the specified value is a valid enum. */
+                isValid: typeof GLEnums._isValid;
+                /**  (Web GL 2): Buffer for copying from one buffer object to another. */
                 COPY_READ_BUFFER: BufferTarget;
+                /**  (Web GL 2): Buffer for copying from one buffer object to another. */
                 COPY_WRITE_BUFFER: BufferTarget;
+                /**  (Web GL 2): Buffer for transform feedback operations. */
                 TRANSFORM_FEEDBACK_BUFFER: BufferTarget;
+                /**  (Web GL 2): Buffer used for storing uniform blocks. */
                 UNIFORM_BUFFER: BufferTarget;
+                /**  (Web GL 2): Buffer used for pixel transfer operations (download operations). */
                 PIXEL_PACK_BUFFER: BufferTarget;
+                /**  (Web GL 2): Buffer used for pixel transfer operations (upload operations). */
                 PIXEL_UNPACK_BUFFER: BufferTarget;
             };
         };
         /** WebGL texture bind targets. */
         readonly TextureTargets: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** A two-dimensional texture. */
             TEXTURE_2D: TextureTarget;
+            /** A cube-mapped texture. */
             TEXTURE_CUBE_MAP: TextureTarget;
+            /** Open ES 3 (WebGL 2) supported texture targets. */
             WebGL2: {
-                isValid: (value: number | Number) => boolean;
+                /** Returns true if the specified value is a valid enum. */
+                isValid: typeof GLEnums._isValid;
+                /**  (Web GL 2): A three-dimensional texture. */
                 TEXTURE_3D: TextureTarget;
+                /**  (Web GL 2): A two-dimensional array texture. */
                 TEXTURE_2D_ARRAY: TextureTarget;
             };
         };
         /** WebGL shader data types. The root types are for both WebGL 1 and 2.  See 'ShaderDataTypes.WebGL2' for WebGL2 supported enums. */
         readonly ShaderDataTypes: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** WebGL float data type. */
             FLOAT: ShaderDataType;
+            /** WebGL float based 'vec2' data type. */
             FLOAT_VEC2: ShaderDataType;
+            /** WebGL float based 'vec3' data type. */
             FLOAT_VEC3: ShaderDataType;
+            /** WebGL float based 'vec4' data type. */
             FLOAT_VEC4: ShaderDataType;
+            /** WebGL integer based data type. */
             INT: ShaderDataType;
+            /** WebGL integer based 'vec2' data type. */
             INT_VEC2: ShaderDataType;
+            /** WebGL integer based 'vec3' data type. */
             INT_VEC3: ShaderDataType;
+            /** WebGL integer based 'vec4' data type. */
             INT_VEC4: ShaderDataType;
+            /** WebGL boolean based data type. */
             BOOL: ShaderDataType;
+            /** WebGL boolean based 'vec2' data type. */
             BOOL_VEC2: ShaderDataType;
+            /** WebGL boolean based 'vec3' data type. */
             BOOL_VEC3: ShaderDataType;
+            /** WebGL boolean based 'vec4' data type. */
             BOOL_VEC4: ShaderDataType;
+            /** WebGL float based 2x2 matrix data type. */
             FLOAT_MAT2: ShaderDataType;
+            /** WebGL float based 3x3 matrix data type. */
             FLOAT_MAT3: ShaderDataType;
+            /** WebGL float based 4x4 matrix data type. */
             FLOAT_MAT4: ShaderDataType;
+            /** WebGL 2D sampler (aka texture) data type. */
             SAMPLER_2D: ShaderDataType;
+            /** WebGL cube sampler (aka skybox textures) data type. */
             SAMPLER_CUBE: ShaderDataType;
+            /** Open ES 3 (WebGL 2) supported data types. */
             WebGL2: {
-                isValid: (value: number | Number) => boolean;
+                /** Returns true if the specified value is a valid enum. */
+                isValid: typeof GLEnums._isValid;
+                /** WebGL 2+ unsigned integer based data type. */
                 UNSIGNED_INT: ShaderDataType;
+                /** WebGL 2+ unsigned integer based 'vec2' data type. */
                 UNSIGNED_INT_VEC2: ShaderDataType;
+                /** WebGL 2+ unsigned integer based 'vec3' data type. */
                 UNSIGNED_INT_VEC3: ShaderDataType;
+                /** WebGL 2+ unsigned integer based 'vec4' data type. */
                 UNSIGNED_INT_VEC4: ShaderDataType;
+                /** WebGL 2+ 3D sampler (aka 3D texture) data type. */
                 SAMPLER_3D: ShaderDataType;
+                /** WebGL 2+ 2D shadow sampler data type. */
                 SAMPLER_2D_SHADOW: ShaderDataType;
+                /** WebGL 2+ 2D array sampler data type. */
                 SAMPLER_2D_ARRAY: ShaderDataType;
+                /** WebGL 2+ 2D shadow array sampler data type. */
                 SAMPLER_2D_ARRAY_SHADOW: ShaderDataType;
+                /** WebGL 2+ cube shadow sampler data type. */
                 SAMPLER_CUBE_SHADOW: ShaderDataType;
+                /** WebGL 2+ integer based 2D sampler (texture) data type. */
                 INT_SAMPLER_2D: ShaderDataType;
+                /** WebGL 2+ integer based 3D sampler (texture) data type. */
                 INT_SAMPLER_3D: ShaderDataType;
+                /** WebGL 2+ integer based cube sampler (skybox) data type. */
                 INT_SAMPLER_CUBE: ShaderDataType;
+                /** WebGL 2+ integer based 2D sampler array data type. */
                 INT_SAMPLER_2D_ARRAY: ShaderDataType;
+                /** WebGL 2+ unsigned integer based 2D sampler (texture) data type. */
                 UNSIGNED_INT_SAMPLER_2D: ShaderDataType;
+                /** WebGL 2+ unsigned integer based 3D sampler (texture) data type. */
                 UNSIGNED_INT_SAMPLER_3D: ShaderDataType;
+                /** WebGL 2+ unsigned integer based cube sampler (skybox) data type. */
                 UNSIGNED_INT_SAMPLER_CUBE: ShaderDataType;
+                /** WebGL 2+ unsigned integer based 2D sampler array data type. */
                 UNSIGNED_INT_SAMPLER_2D_ARRAY: ShaderDataType;
             };
         };
         /** Primitive types that can be rendered. */
         readonly PrimitiveTypeModes: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** Draws a single dot. */
             POINTS: PrimitiveTypeMode;
+            /** Draws a straight line to the next vertex. */
             LINE_STRIP: PrimitiveTypeMode;
+            /** Draws a straight line to the next vertex, and connects the last vertex back to the first. */
             LINE_LOOP: PrimitiveTypeMode;
+            /** Draws a line between a pair of vertices. */
             LINES: PrimitiveTypeMode;
+            /** A series of connected triangles, sharing vertices. */
             TRIANGLE_STRIP: PrimitiveTypeMode;
+            /** A set of connected triangles that share one central vertex. */
             TRIANGLE_FAN: PrimitiveTypeMode;
+            /** Draws triangles for groups of three vertices per triangle. */
             TRIANGLES: PrimitiveTypeMode;
         };
         /** (WebGL 2) The mode to use when capturing varying outputs from vertex shaders. */
         readonly FeedbackModes: {
-            isValid: (value: number | Number) => boolean;
+            /** Returns true if the specified value is a valid enum. */
+            isValid: typeof GLEnums._isValid;
+            /** The outputs are placed in order, which is then repeated, for a single buffer. */
             INTERLEAVED_ATTRIBS: PrimitiveTypeMode;
+            /** Each output is sent to a different buffer. */
             SEPARATE_ATTRIBS: PrimitiveTypeMode;
         };
-        private _updateEnums(ctx, enumObject);
+        private _updateEnums;
         constructor(ctx: Context);
-        private _updateEnumsForScope(ctx, scopeObj);
+        private _updateEnumsForScope;
         /** Returns the size (in bytes) of the data represented by the specified enum value.
          * If the enum does not represent a data type with a predefined size in bytes, then undefined is returned.
          */
@@ -235,8 +340,8 @@ declare namespace WebGLJS {
         readonly shader: ShaderProgram;
         readonly name: string;
         type: ShaderDataType;
-        readonly location: number | WebGLUniformLocation;
-        readonly count: number;
+        readonly location?: number | WebGLUniformLocation;
+        readonly count?: number;
         constructor(shader: ShaderProgram, name: string, type: ShaderDataType, location?: number | WebGLUniformLocation, count?: number);
     }
     class ShaderVarying extends ShaderProperty implements IBindable {
@@ -255,13 +360,13 @@ declare namespace WebGLJS {
          * @param buffer An optional buffer to associate with this uniform. If not specified, then 'shader.sharedBuffer' will be used instead, if set.
          */
         constructor(shader: ShaderProgram, index: number, name: string, type?: ShaderDataType, buffer?: Buffer<IBufferArrayType>);
-        private _error(msg);
-        private _warn(msg);
+        private _error;
+        private _warn;
         bind(): this;
         unbind(): this;
     }
     class ShaderAttribute extends ShaderProperty implements IBindable {
-        count: number;
+        count?: number;
         readonly pointer: VertexAttributePointer;
         readonly location: number;
         /** The buffer, if any, associated with this attribute.  A buffer is required in order to define pointers for the attribute.
@@ -287,7 +392,7 @@ declare namespace WebGLJS {
          * @param count The number of uniforms (for arrays).  Everything else is usually 1.
          */
         constructor(shader: ShaderProgram, location: number, name: string, type?: ShaderDataType, buffer?: Buffer<IBufferArrayType>, count?: number);
-        private _error(msg);
+        private _error;
         toString(): string;
         /**
          * Change the index assigned to this attribute for the underlying shader program.
@@ -327,11 +432,11 @@ declare namespace WebGLJS {
         unbind(): this;
     }
     class ShaderUniform extends ShaderProperty implements IBindable {
-        buffer: Buffer<IBufferArrayType>;
-        value: number | number[] | Float32Array | WebGLTexture;
-        componentSize: ComponentSize;
-        textureIndex: number;
-        count: number;
+        buffer?: Buffer<IBufferArrayType>;
+        value?: number | number[] | Float32Array | WebGLTexture;
+        componentSize?: ComponentSize;
+        textureIndex?: number;
+        count?: number;
         readonly location: WebGLUniformLocation;
         /**
          * Constructs a new shader uniform descriptor object.
@@ -353,7 +458,7 @@ declare namespace WebGLJS {
          * @param count The number of uniforms (for arrays).  Everything else is usually 1.
          */
         constructor(shader: ShaderProgram, location: WebGLUniformLocation, name: string, type?: ShaderDataType, buffer?: Buffer<IBufferArrayType>, value?: number | number[] | Float32Array | WebGLTexture, componentSize?: ComponentSize, textureIndex?: number, count?: number);
-        private _error(msg);
+        private _error;
         toString(): string;
         bind(value?: any): this;
         unbind(): this;
@@ -365,11 +470,11 @@ declare namespace WebGLJS {
     class VertexAttributePointer {
         readonly attribute: ShaderAttribute;
         attributeLocation: number;
-        componentSize: ComponentSize;
-        type: ComponentType;
-        normalized: boolean;
-        stride: number;
-        offset: number;
+        componentSize?: ComponentSize;
+        type?: ComponentType;
+        normalized?: boolean;
+        stride?: number;
+        offset?: number;
         /** Returns the buffer associated with this pointer. When 'bind()' is called this reference will become set to the current reference in 'attribute.buffer'. */
         readonly buffer: Buffer<IBufferArrayType>;
         /** Set the first time 'Bind()' is called because 'gl.vertexAttribPointer()' takes the current buffer reference set in 'ARRAY_BUFFER' and holds onto it, so this helps keep track of it.  */
@@ -377,8 +482,8 @@ declare namespace WebGLJS {
         private _strideMismatchError;
         private _warnAutoDetectedStride;
         constructor(attribute: ShaderAttribute, attributeLocation: number, componentSize?: ComponentSize, type?: ComponentType, normalized?: boolean, stride?: number, offset?: number);
-        private _error(msg);
-        private _warn(msg);
+        private _error;
+        private _warn;
         toString(): string;
         /**
          * Binds the pointer to the underlying attribute location.
@@ -392,10 +497,10 @@ declare namespace WebGLJS {
      */
     class Buffer<T extends IBufferArrayType = IBufferArrayType> implements IBindable {
         readonly ctx: Context;
-        readonly usage: UsageType;
-        readonly type: ComponentType;
-        readonly componentSize: ComponentSize;
-        readonly stride: number;
+        readonly usage?: UsageType;
+        readonly type?: ComponentType;
+        readonly componentSize?: ComponentSize;
+        readonly stride?: number;
         private _buffer;
         private _bufferSize;
         private _lastTarget;
@@ -443,8 +548,8 @@ declare namespace WebGLJS {
          * will be expecting float values, then the stride will be 2 - as in, increment the pointer by 2 to get to the next attribute value.
         */
         constructor(ctx: Context, usage?: UsageType, type?: ComponentType, componentSize?: ComponentSize, stride?: number);
-        private _error(msg);
-        private _warn(msg);
+        private _error;
+        private _warn;
         /**
          * Set properties for this buffer.
          * @param usage Describes how the buffer will be used. GL drivers rely on this as a hint on how to be efficient with the underlying data store.
@@ -477,7 +582,7 @@ declare namespace WebGLJS {
         setData(data?: T, length?: number, copyStartIndex?: number, dstByteOffset?: number, resize?: boolean): this;
         /**
          * Uploads data to the underlying WebGL buffer.
-         * Data is transfered at the last possible moment so there's no need to waste time if it's never used.  This also allows for local updates until binding.
+         * Data is transferred at the last possible moment so there's no need to waste time if it's never used.  This also allows for local updates until binding.
          */
         transferData(): void;
         /**
@@ -559,8 +664,8 @@ declare namespace WebGLJS {
         feedbackBuffer: Buffer;
         private _feedbackBuffer;
         constructor(ctx: Context);
-        private _error(msg);
-        private _warn(msg);
+        private _error;
+        private _warn;
         setVertexCode(code: string | string[]): this;
         setFragmentCode(code: string | string[]): this;
         /**
@@ -628,10 +733,10 @@ declare namespace WebGLJS {
      * A root wrapper class for working with WebGL.
      */
     class Context {
-        owner: object;
-        canvasWidth: number;
-        canvasHeight: number;
-        readonly canvas: HTMLCanvasElement;
+        owner?: object;
+        canvasWidth?: number;
+        canvasHeight?: number;
+        readonly canvas?: HTMLCanvasElement;
         /** If WebGL is supported, this will contain a structured layout of supported WebGL enums to be used for the GPU instance. */
         readonly enums: GLEnums;
         readonly _globalOptionStates: {
@@ -811,8 +916,8 @@ declare namespace WebGLJS {
          * @param clearAlpha The alpha value to use when clearing the texture (from 0.0, transparent, to 1.0, opaque) . If not specified, 1.0 is assumed.
          */
         constructor(ctx: Context, width: number, height: number, clearColor?: string, clearAlpha?: number);
-        private _error(msg);
-        private _warn(msg);
+        private _error;
+        private _warn;
         /**
          * Ensures a new 2D context for drawing operations exists.  This is called automatically by some functions when needed.
          * Feel free to call this to make sure a context exists, as it won't be re-created every time (unless 'forceNew' is true).
@@ -1256,7 +1361,7 @@ declare namespace WorldSimulator2D {
             Video_MOV = "video/quicktime",
             Video_WMV = "video/x-ms-wmv",
             Video_FLV = "video/x-flv",
-            Video_WEBM = "video/webm",
+            Video_WEBM = "video/webm"
         }
         /** A map of popular resource extensions to resource enum type names.
           * Example 1: ResourceTypes[ResourceExtensions[ResourceExtensions.Application_Script]] === "application/javascript"
@@ -1302,7 +1407,7 @@ declare namespace WorldSimulator2D {
             Video_WMV = ".wmv",
             Video_FLV = ".flv",
             Video_WEBM = ".webm",
-            Video_OGG = ".ogv",
+            Video_OGG = ".ogv"
         }
         /** Return the resource (MIME) type of a given extension (with or without the period). */
         function getResourceTypeFromExtension(ext: string): ResourceTypes;
@@ -1323,7 +1428,7 @@ declare namespace WorldSimulator2D {
             /** The requested resource is ready to be used. */
             Ready = 5,
             /** The source is a script, and was executed (this only occurs on demand [not automatic]). */
-            Executed = 6,
+            Executed = 6
         }
         /** Creates a new resource request object, which allows loading resources using a "promise" style pattern (this is a custom
           * implementation designed to work better with the CoreXT system specifically, and to support parallel loading).
@@ -1379,9 +1484,9 @@ declare namespace WorldSimulator2D {
             private _dependentCompletedCount;
             _dependants: ResourceRequest[];
             private _paused;
-            private _queueDoNext(data);
-            private _queueDoError();
-            private _requeueHandlersIfNeeded();
+            private _queueDoNext;
+            private _queueDoError;
+            private _requeueHandlersIfNeeded;
             then(success: ICallback<IResourceRequest>, error?: IErrorCallback<IResourceRequest>): this;
             /** Adds another request and makes it dependent on the current 'parent' request.  When all parent requests have completed,
               * the dependant request fires its 'onReady' event.
@@ -1410,22 +1515,22 @@ declare namespace WorldSimulator2D {
               * Note: This call queues the start request in 'async' mode, which begins only after the current script execution is completed.
               */
             start(): this;
-            private _Start();
+            private _Start;
             /** Upon return, the 'then' or 'ready' event chain will pause until 'continue()' is called. */
             pause(): this;
             /** After calling 'pause()', use this function to re-queue the 'then' or 'ready' even chain for continuation.
               * Note: This queues on a timer with a 0 ms delay, and does not call any events before returning to the caller.
               */
             continue(): this;
-            private _doOnProgress(percent);
+            private _doOnProgress;
             setError(message: string, error?: {
                 name?: string;
                 message: string;
                 stack?: string;
             }): void;
-            private _doNext();
-            private _doReady();
-            private _doError();
+            private _doNext;
+            private _doReady;
+            private _doError;
             /** Resets the current resource data, and optionally all dependencies, and restarts the whole loading process.
               * Note: All handlers (including the 'progress' and 'ready' handlers) are cleared and will have to be reapplied (clean slate).
               * @param {boolean} includeDependentResources Reload all resource dependencies as well.
@@ -1479,7 +1584,7 @@ declare namespace WorldSimulator2D {
         World = 32,
         Layer = 64,
         Matter = 128,
-        WorldObject = 256,
+        WorldObject = 256
     }
     /** Allows objects to be disposable in the system by allowing cached items to be re-initialized and re-configured. */
     interface IInitializable {
@@ -1689,7 +1794,7 @@ declare namespace WorldSimulator2D {
          * @param obj The object to add.
          */
         add(obj: TChildren): TChildren;
-        private _updateWorldAndLayer(world, layer);
+        private _updateWorldAndLayer;
         /**
          * Removes and returns the current object from the parent and returns it.
          */
@@ -1968,7 +2073,7 @@ declare namespace WorldSimulator2D {
         constructor();
         initialize(isnew: boolean, autoReset?: boolean): void;
         configure(minX?: number, minY?: number, maxX?: number, maxY?: number, ...args: any[]): this;
-        private _buildGrid();
+        private _buildGrid;
         dispose(): void;
         /**
          * The grid cell items at the specific grid location.
@@ -1987,13 +2092,13 @@ declare namespace WorldSimulator2D {
         * @param obj The object to set in the grid.
         * @returns The layer instance.
         */
-        private _OnObjectGridPositionChanged(obj);
+        private _OnObjectGridPositionChanged;
         /**
         * Removes the specified object from the dynamic grid system.  If the object is not in the grid, the request is ignored.
         * @param obj The object to removed from the grid.
         * @returns The layer instance.
         */
-        private _removeObjectFromGrid(obj);
+        private _removeObjectFromGrid;
         startup(): this;
         update(processor: MathPipelines.MathProcessor): this;
         postUpdate(buffer: Float32Array, index: number, piplineIndex: MathPipelines.Types): this;
@@ -2007,7 +2112,7 @@ declare namespace WorldSimulator2D {
         Air = 0,
         Water = 1,
         Rock = 2,
-        Metal = 3,
+        Metal = 3
     }
     /**
      * Records binding properties between matter.
@@ -2172,7 +2277,7 @@ declare namespace WorldSimulator2D {
             /** Transparency (0.0 to 1.0). */
             alpha = 3,
             /** Keep as the last enum to know the size of the float block required. */
-            blockSize = 4,
+            blockSize = 4
         }
         /**
          * The vertex shader code to use when rendering objects in the simulator.
@@ -2232,8 +2337,8 @@ declare namespace WorldSimulator2D {
              * @param index The buffer processing sequence number.
              */
             constructor(cpu: CPU, index: number);
-            private _doError(this, ev);
-            private _doCompleted(this, ev);
+            private _doError;
+            private _doCompleted;
             /**
              * Set a buffer to get ready for processing.
              * @param buffer The buffer to set.  No copy is made, and all references will become invalid once processing starts.
@@ -2287,7 +2392,7 @@ declare namespace WorldSimulator2D {
             setInputs(segments: Float32Array[]): void;
             setGlobal(name: string, value: any): this;
             start(): this;
-            private _doThreadCompleted(threadProgram);
+            private _doThreadCompleted;
         }
     }
 }
@@ -2306,7 +2411,7 @@ declare namespace WorldSimulator2D {
     namespace MathPipelines {
         /** Supported math pipeline types. */
         enum Types {
-            GravityCalculation = 0,
+            GravityCalculation = 0
         }
         enum GravityCalculationInputs {
             /** Object requesting the calculation. */
@@ -2329,7 +2434,7 @@ declare namespace WorldSimulator2D {
             vx = 8,
             /** The current Y velocity to be updated. */
             vy = 9,
-            blockSize = 10,
+            blockSize = 10
         }
         enum GravityCalculationOutputs {
             /** Object requesting the calculation. */
@@ -2351,7 +2456,7 @@ declare namespace WorldSimulator2D {
             /** The new X velocity. */
             vx = 8,
             /** The new Y velocity. */
-            vy = 9,
+            vy = 9
         }
         enum CollisionCalculationInputs {
             /** Object requesting the calculation. */
@@ -2370,7 +2475,7 @@ declare namespace WorldSimulator2D {
             vx2 = 6,
             /** Y velocity of object 2. */
             vy2 = 7,
-            blockSize = 8,
+            blockSize = 8
         }
         interface IMathPipelineInternal {
             bufferWriteIndex: number;
@@ -2413,7 +2518,7 @@ declare namespace WorldSimulator2D {
         }
         enum ProcessorTypes {
             CPU = 0,
-            GPU = 1,
+            GPU = 1
         }
         /**
          * The base type for math programs that will calculate blocks of variable data in a buffer stream.
@@ -2493,7 +2598,7 @@ declare namespace WorldSimulator2D {
             readonly owner: object;
             readonly processorType: ProcessorTypes;
             readonly maxCalculationsPerBuffer: number;
-            private _numberOfInputBuffersOrCores;
+            private _numberOfInputBuffersOrCores?;
             /** Multiple registered math pipelines for streaming arguments for accelerated calculations. */
             readonly mathPipelines: IMathPipelines;
             readonly gl: WebGL;
@@ -2611,9 +2716,9 @@ declare namespace WorldSimulator2D {
          * A layer is used to place world objects at world-pixel locations.
          */
         createLayer(): Layer;
-        private _threadCompleted(this, thread);
-        private _threadsCompleted(this, cpu, inputCount);
-        private _processResults(processor);
+        private _threadCompleted;
+        private _threadsCompleted;
+        private _processResults;
         /**
          * Startup this world.
          */
@@ -2683,13 +2788,13 @@ declare namespace WorldSimulator2D {
             /** The resource is a DOM object. */
             DomObject = "DomObject",
             /** The resource is an array (such as Array(), [], Float32Array, Int32Array, etc.). */
-            DataArray = "DataArray",
+            DataArray = "DataArray"
         }
     }
     enum LoadingStates {
         NotLoaded = 0,
         Loading = 1,
-        Loaded = 2,
+        Loaded = 2
     }
     interface IResourceEntry {
         /** The path to the resource to load. */
@@ -2825,7 +2930,7 @@ declare namespace WorldSimulator2D {
         readonly electronegativity: number;
         readonly ionizationEnergy: number;
         readonly groupBlock: string;
-        readonly freezingPointDepression: number;
+        readonly freezingPointDepression?: number;
         /**
          * Constructs a single element (typically with parameters from the periodic table).
          * @param number The element number in the periodic table (leave this 0 for custom elements).
@@ -2836,7 +2941,9 @@ declare namespace WorldSimulator2D {
          * @param meltingPoint
          * @param freezingPointDepression
          */
-        constructor(number: number, symbol: string, name: string, color: string, standardState: string, weight: number, density: number, boilingPoint: number, meltingPoint: number, atomicRadius: number, ionRadius: number, electronAffinity: number, electronegativity: number, ionizationEnergy: number, groupBlock: string, freezingPointDepression?: number);
+        constructor(number: number, symbol: string, name: string, color: string, standardState: string, weight: number, density: number, boilingPoint: number, meltingPoint: number, atomicRadius: number, ionRadius: number, electronAffinity: number, electronegativity: number, // https://en.wikipedia.org/wiki/Electronegativity
+        ionizationEnergy: number, // https://en.wikipedia.org/wiki/Ionization_energy
+        groupBlock: string, freezingPointDepression?: number);
         clone(): this;
     }
     namespace PeriodicTable {
@@ -2991,7 +3098,7 @@ declare namespace WorldSimulator2D {
         */
         readonly prefabs: IEngineObject[];
         constructor();
-        private _OnObjectUniqueNameChanged(obj, oldName);
+        private _OnObjectUniqueNameChanged;
         /**
          * Creates an object of the specified type.  The type is either pulled from the static disposed objects cache, or else a new instance it created.
          * @param type The type of object to create.
@@ -3085,7 +3192,7 @@ declare namespace WorldSimulator2D {
     enum RenderTypes {
         SpatialObect = 1,
         PhysicObject = 2,
-        Matter = 3,
+        Matter = 3
     }
 }
 import WS2D = WorldSimulator2D;

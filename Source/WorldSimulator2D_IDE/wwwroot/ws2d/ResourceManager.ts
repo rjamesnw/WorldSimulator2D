@@ -1,4 +1,5 @@
 ﻿namespace WorldSimulator2D {
+
     export namespace Loader {
 
         /** Some additional WS2D specific resource types. */

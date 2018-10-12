@@ -16,7 +16,6 @@
 			"**/ws2d/**/*.js": true,
 			"**/*.js.map": true
 		},
-		"window.restoreWindows": "all",
 		"editor.formatOnPaste": true,
 		"csharp.format.enable": true,
 		"typescript.format.enable": true,
@@ -28,8 +27,30 @@
 		"git.enableSmartCommit": true,
 		"git.confirmSync": false,
 		"cSpell.words": [
+			"ANDing",
+			"GLJS",
+			"GLSL",
+			"PVRTC",
+			"RASTERIZER",
+			"Vidia",
+			"astc",
+			"blend",
+			"ext",
+			"exts",
+			"fbvarying",
+			"framebuffer's",
 			"grav",
-			"pstate"
+			"internalname",
+			"minmax",
+			"pstate",
+			"pvrtc",
+			"rasterization",
+			"renderable",
+			"rgb",
+			"skybox",
+			"srgb",
+			"tfbvaryings",
+			"varyings"
 		]
 	}
 }

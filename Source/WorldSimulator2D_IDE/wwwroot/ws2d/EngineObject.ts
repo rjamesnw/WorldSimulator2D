@@ -209,7 +209,7 @@
             obj.createdFrom = this;
             for (var p in this)
                 if (!(p in (<typeof EngineObject>this.constructor)._nonClonableProperties) && Object.prototype.hasOwnProperty.call(this, p)) {
-                    var value = <IClonable>this[p];
+                    var value = <IClonable><any>this[p];``
                     if (typeof value != OBJECT) // (NEVER copy objects by reference)
                         obj[p] = this[p];
                     else if (value && typeof value.clone == FUNCTION)

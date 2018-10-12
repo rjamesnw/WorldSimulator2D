@@ -671,13 +671,13 @@
                     gl.uniform1i(this.location, this.textureIndex); // (set the INTEGER value to select the texture unit for this uniform location)
                 }
                 else if (!this.componentSize || this.componentSize == 1)
-                    gl.uniform1fv(this.location, this.value);
+                    (<WebGL2RenderingContext>gl).uniform1fv(this.location, this.value);
                 else if (this.componentSize == 2)
-                    gl.uniform2fv(this.location, this.value);
+                    (<WebGL2RenderingContext>gl).uniform2fv(this.location, this.value);
                 else if (this.componentSize == 3)
-                    gl.uniform3fv(this.location, this.value);
+                    (<WebGL2RenderingContext>gl).uniform3fv(this.location, this.value);
                 else if (this.componentSize > 3)
-                    gl.uniform4fv(this.location, this.value);
+                    (<WebGL2RenderingContext>gl).uniform4fv(this.location, this.value);
                 if (!ctx.disableErrorChecking) ctx.throwOnError();
             }
             return this;
@@ -796,7 +796,7 @@
         private _varying: ShaderVarying; // (if set, the buffer is bound to a varying for vertex shader feedback; need to get the details from there in order to read any results)
         private _transformFeedbackIndex: number; // (set when the buffer is bound to a transform target)
         private _lastTransformFeedbackIndex: number; // (the last binding point used during the last call to 'bind()')
-        private _newData: T; // (if set will be transfered to the WebGL buffer on next bind)
+        private _newData: T; // (if set will be transferred to the WebGL buffer on next bind)
         private _newDataOffset: number; // (where to begin copying the source data)
         private _newCopyLength: number; // (number of items to copy to the webgl buffer)
         private _dstDataOffset: number; // (target byte offset where to begin copying data to)
@@ -931,7 +931,7 @@
 
         /**
          * Uploads data to the underlying WebGL buffer.
-         * Data is transfered at the last possible moment so there's no need to waste time if it's never used.  This also allows for local updates until binding.
+         * Data is transferred at the last possible moment so there's no need to waste time if it's never used.  This also allows for local updates until binding.
          */
         transferData() {
             if (this._newData) {
@@ -975,7 +975,7 @@
                         ctx.webgl2.bufferData(gl.ARRAY_BUFFER, data, +this.usage, copyOffset, copyLength);
                     else
                         if (copyOffset == 0 && copyLength == data.length)
-                            gl.bufferData(gl.ARRAY_BUFFER, data, +this.usage);
+                            gl.bufferData(gl.ARRAY_BUFFER, <any>data, +this.usage);
                         else if (!data.slice)
                             throw this._error("When WebGL 2 is not supported, which requires the given data object to contain a 'slice()' function.");
                         else
@@ -988,7 +988,7 @@
                     // ... was already allocated before ...
                     if (copyLength > 0)
                         if (copyOffset == 0 && copyLength == this._bufferSize)
-                            gl.bufferSubData(gl.ARRAY_BUFFER, 0, data);
+                            gl.bufferSubData(gl.ARRAY_BUFFER, 0, <any>data);
                         else
                             if (ctx.webgl2)
                                 ctx.webgl2.bufferSubData(gl.ARRAY_BUFFER, dstOfs, data, copyOffset, copyLength); // TODO: (size is different so need to reallocate, but perhaps we can allow sub-copy small-to-larger buffer size?)
@@ -1967,7 +1967,7 @@
         enabledExtension<K extends keyof ExtensionsMap>(name: K, required = true): ExtensionsMap[K] { // (https://www.khronos.org/registry/webgl/extensions/)
             if (!this.webgl) throw Error("WebGL is not supported.");
             var gl = this.webgl;
-            var ext = gl.getExtension(name); // (these are enabled by default on 2.0; also, many constants are moved into the render context)
+            var ext = gl.getExtension(<any>name); // (these are enabled by default on 2.0; also, many constants are moved into the render context)
             if (!ext)
                 if (required) throw Error("The WebGL extension '" + name + "' is not supported in the current context.");
                 else return null;
